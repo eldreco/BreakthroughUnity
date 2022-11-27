@@ -120,6 +120,10 @@ public class GameManager : MonoBehaviour
 		lockedPlay = false;
 	}
 	
+	public void LoadMenu(){
+		SceneManager.LoadScene("Menu");
+	}
+	
 	public void Restart(){
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
