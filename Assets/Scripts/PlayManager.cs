@@ -18,14 +18,15 @@ public class PlayManager : MonoBehaviour
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	
-	public void PlayWhites(GameObject nextTile, List<GameObject> moves){
+	public void PlayWhites(GameObject nextTile){
 		GameObject tileFrom = boardManager.GetSelectedTile();
+		List<GameObject> moves = boardManager.PossibleMovesWhites(tileFrom);
 		for(int i = 0; i < moves.Count; i++){
 			if(moves[i] == nextTile){
 				MoveWhitePiece(piece,tileFrom ,nextTile);
+				boardManager.SetSelectedTile(null);
 			}
 		}
-		boardManager.SetSelectedTile(null);
 	}
 	
 	private void MoveWhitePiece(GameObject pieceToMove, GameObject tileToMoveFrom ,GameObject tileToMoveTo){

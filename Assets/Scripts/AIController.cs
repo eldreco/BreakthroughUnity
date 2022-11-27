@@ -25,8 +25,12 @@ public class AIController : MonoBehaviour
 	}
 	
 	
-	public void Play(){
+	public IEnumerator Play(){
 		if(gameManager.GetActiveState() == GameManager.GameState.PLAYBLACKS){
+			
+			//Wait one second to play for better UX
+			yield return new WaitForSeconds(1);
+
 			ChooseMove();
 			gameManager.LockPlay();
 		}

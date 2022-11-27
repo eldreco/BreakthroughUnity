@@ -73,15 +73,11 @@ public class InputManager : MonoBehaviour
 			Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit)){
-				if(hit.transform.gameObject.tag == "Tile"){//Check if it's a tile
-					
+				if(hit.transform.gameObject.tag == "Tile"){//Check if it's a tile		
 					tile = hit.transform.gameObject;
 					
-					//Get next moves of tile with previoulsy selected piece, not tile selected now
-					List<GameObject> nextMoves = boardManager.PossibleMovesWhites(boardManager.GetSelectedTile());
-					
 					//Call playManager to move the piece to the new selected tile
-					playManager.PlayWhites(tile, nextMoves);
+					playManager.PlayWhites(tile);
 				}
 			}
 		}

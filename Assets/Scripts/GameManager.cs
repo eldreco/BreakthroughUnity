@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 	
 	private void PlayBlacks(){
 		SetActiveState(GameState.PLAYBLACKS);
-		aiController.Play();
+		StartCoroutine(aiController.Play());
 	}
 	
 	private void WinWhites(){
