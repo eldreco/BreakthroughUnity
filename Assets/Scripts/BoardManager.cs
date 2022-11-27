@@ -28,6 +28,7 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 	
+	
 	public List<GameObject> PossibleMovesWhites(GameObject pos){
 		List<GameObject> moves = new List<GameObject>();
 		if(GetSelectedTile() != null){

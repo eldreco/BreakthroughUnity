@@ -27,7 +27,6 @@ public class AIController : MonoBehaviour
 	
 	public void Play(){
 		if(gameManager.GetActiveState() == GameManager.GameState.PLAYBLACKS){
-			Debug.Log("AI PLAYING");
 			ChooseMove();
 			gameManager.LockPlay();
 		}
