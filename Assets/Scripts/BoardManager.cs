@@ -57,6 +57,8 @@ public class BoardManager : MonoBehaviour
 	
 	public List<GameObject> PossibleMovesBlacks(GameObject pos){
 		List<GameObject> moves = new List<GameObject>();
+		if(board[pos] == null)
+			return moves;
 		if(board[pos].name[0] == 'B'){
 			//Setup of the possible next positions
 			char nextPosCol1 = (char)((int)pos.name[0] - 1);

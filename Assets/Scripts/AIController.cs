@@ -36,7 +36,7 @@ public class AIController : MonoBehaviour
 		}
 	}
 	
-	private void ChooseMove(){
+	private void ChooseMove(){ //Change when different ais implemented
 		ChooseRandomMove();
 	}
 	
@@ -48,19 +48,47 @@ public class AIController : MonoBehaviour
 		GameObject tileToMoveTo = null;
 		List<GameObject> moves = new List<GameObject>();
 
-		while(moves.Count == 0){
-			GameObject key = blacks.ElementAt(Random.Range(0, blacks.Count)).Key;
-			if(blacks[key] != null){
-				tileToMoveFrom = key;
-				pieceToMove = board[tileToMoveFrom];
-				moves = boardManager.PossibleMovesBlacks(tileToMoveFrom);
+		(GameObject, GameObject) eats = CanEat();
+		tileToMoveFrom = eats.Item1;
+		tileToMoveTo = eats.Item2;
+		
+		if(tileToMoveFrom != null){
+			pieceToMove = blacks[tileToMoveFrom];
+		}else{
+			while(moves.Count == 0){
+				GameObject key = blacks.ElementAt(Random.Range(0, blacks.Count)).Key;
+				if(blacks[key] != null){
+					tileToMoveFrom = key;
+					pieceToMove = board[tileToMoveFrom];
+					moves = boardManager.PossibleMovesBlacks(tileToMoveFrom);
+				}
 			}
+			tileToMoveTo = moves[Random.Range(0,moves.Count)];
 		}
-
-		tileToMoveTo = moves[Random.Range(0,moves.Count)];
 
 		UpdateBlacks(pieceToMove, tileToMoveFrom, tileToMoveTo);
 		playManager.MoveBlackPiece(pieceToMove, tileToMoveFrom, tileToMoveTo);
+	}
+    
+	private (GameObject, GameObject) CanEat(){
+		GameObject tileToMoveFrom = null;
+		GameObject tileToMoveTo = null;
+		List<GameObject> moves = new List<GameObject>();
+		
+		foreach (KeyValuePair<GameObject, GameObject> kvp in blacks){
+			moves = boardManager.PossibleMovesBlacks(kvp.Key);
+
+			foreach(GameObject pos in moves){
+				if(boardManager.GetBoard()[pos] != null){
+					if(boardManager.GetBoard()[pos].name[0] == 'W'){
+						tileToMoveFrom = kvp.Key;
+						tileToMoveTo = pos;
+					}
+				}
+			}
+		}
+		
+		return (tileToMoveFrom, tileToMoveTo);
 	}
     
 	private void UpdateBlacks(GameObject pieceMoved,GameObject tileToMoveFrom, GameObject tileToMoveTo){
