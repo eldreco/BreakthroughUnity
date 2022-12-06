@@ -8,6 +8,7 @@ public class MainManager : MonoBehaviour
 {
 	public static MainManager Instance;
 	private Color _bgColor;
+	public string _difficulty{get; private set;}
 	
 	private void Awake()
 	{
@@ -21,10 +22,12 @@ public class MainManager : MonoBehaviour
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
 		LoadColor();
+		LoadDifficulty();
 	}
 	
 	private void Start()
 	{
+
 		Color black = new Color(0,0,0,0);
 		if (MainManager.Instance != null)
 		{
@@ -58,12 +61,19 @@ public class MainManager : MonoBehaviour
 	public Color GetColor(){
 		return _bgColor;
 	}
+
+	public void SetDifficulty(string difficulty){
+		_difficulty = difficulty;
+		SaveDifficulty();
+	}
 	
 	[System.Serializable]
 	public class SaveData
 	{
 		public Color bgColor;
+		public string difficulty;
 	}
+
 	public void SaveColor()
 	{
 		SaveData data = new SaveData();
@@ -83,6 +93,28 @@ public class MainManager : MonoBehaviour
 			SaveData data = JsonUtility.FromJson<SaveData>(json);
 
 			_bgColor = data.bgColor;
+		}
+	}
+
+	public void SaveDifficulty()
+	{
+		SaveData data = new SaveData();
+		data.difficulty = _difficulty;
+
+		string json = JsonUtility.ToJson(data);
+
+		File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+	}
+
+	public void LoadDifficulty()
+	{
+		string path = Application.persistentDataPath + "/savefile.json";
+		if (File.Exists(path))
+		{
+			string json = File.ReadAllText(path);
+			SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+			_difficulty = data.difficulty;
 		}
 	}
 	

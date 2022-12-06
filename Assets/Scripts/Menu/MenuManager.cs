@@ -6,8 +6,23 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
 	private MainManager _mainManager;
+	private MenuUIManager _menuUIManager;
 	
-	public void EnterPlayScene(){
+	private void Awake() {
+		_menuUIManager = gameObject.GetComponent<MenuUIManager>();
+	}
+
+	public void PressPlayButton(){
+		_menuUIManager.PressPlayButton();
+	}
+
+	public void LoadMainEasy(){
+		_mainManager.SetDifficulty("Easy");
+		SceneManager.LoadScene("Main");
+	}
+
+	public void LoadMainMedium(){
+		_mainManager.SetDifficulty("Medium");
 		SceneManager.LoadScene("Main");
 	}
 	

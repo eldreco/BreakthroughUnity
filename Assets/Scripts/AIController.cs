@@ -9,6 +9,8 @@ public class AIController : MonoBehaviour
 	private BoardManager _boardManager;
 	private GameManager _gameManager;
 	private PlayManager _playManager;
+	private MainManager _mainManager;
+
 	private bool _firstPlay;
 	
 	private IDictionary<GameObject, GameObject> _blacks = new Dictionary<GameObject, GameObject>();
@@ -22,13 +24,12 @@ public class AIController : MonoBehaviour
 		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
 		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		_playManager = GameObject.Find("GameManager").GetComponent<PlayManager>();
+		_mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
 		_firstPlay = true;
 	}
 	
 	
 	public IEnumerator Play(){
-		Debug.Log(_gameManager);
-		Debug.Log(_gameManager.GetActiveState());
 		if(_gameManager.GetActiveState() == GameManager.GameState.PLAYBLACKS){
 			
 			if(_firstPlay)
@@ -45,8 +46,10 @@ public class AIController : MonoBehaviour
 	}
 	
 	private void ChooseMove(){ //Change when different ais implemented
-		// ChooseRandomMove();
-		AdvancedPlayerMove();
+		if(_mainManager._difficulty == "Easy")
+			ChooseRandomMove();
+		else if(_mainManager._difficulty == "Medium")
+			AdvancedPlayerMove();
 	}
 	
 	private void AdvancedPlayerMove(){
@@ -81,7 +84,6 @@ public class AIController : MonoBehaviour
 				}
 			}
 			foreach (GameState state in states){
-				Debug.Log(state._valueAdvanced);
 				if(highestValueState == null)
 					highestValueState = state;
 				else if(state._valueAdvanced >= highestValueState._valueAdvanced){
@@ -95,7 +97,6 @@ public class AIController : MonoBehaviour
 			tileToMoveFrom = chosenState._tileFrom;
 			tileToMoveTo = chosenState._tileTo;
 		}
-		//Debug.Log("HIGHEST: " + highestValueState._valueAdvanced);
 		UpdateBlacks(pieceToMove, tileToMoveFrom, tileToMoveTo);
 		_playManager.MoveBlackPiece(pieceToMove, tileToMoveFrom, tileToMoveTo);
 	}
