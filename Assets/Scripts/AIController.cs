@@ -4,15 +4,14 @@ using UnityEngine;
 using System.Linq;
 
 public class AIController : MonoBehaviour
-{
-	
+{	
 	//References to other scripts
 	private BoardManager _boardManager;
 	private GameManager _gameManager;
 	private PlayManager _playManager;
 	
-	private IDictionary<GameObject, GameObject> blacks = new Dictionary<GameObject, GameObject>();
-    // Start is called before the first frame update
+	private IDictionary<GameObject, GameObject> _blacks = new Dictionary<GameObject, GameObject>();
+
     void Start()
     {
 	    Setup();
@@ -37,9 +36,61 @@ public class AIController : MonoBehaviour
 	}
 	
 	private void ChooseMove(){ //Change when different ais implemented
-		ChooseRandomMove();
+		// ChooseRandomMove();
+		AdvancedPlayerMove();
 	}
 	
+	private void AdvancedPlayerMove(){
+		IDictionary<GameObject, GameObject> board = _boardManager.GetBoard();
+		FillBlacks();
+		GameObject pieceToMove = null;
+		GameObject tileToMoveFrom = null;
+		GameObject tileToMoveTo = null;
+
+		List<GameState> states = new List<GameState>();
+		GameState highestValueState = null;
+		List<GameState> highestStates = new List<GameState>();
+		GameState chosenState = null;
+
+		(GameObject, GameObject) eats = CanEat();
+		tileToMoveFrom = eats.Item1;
+		tileToMoveTo = eats.Item2;
+		
+		if(tileToMoveFrom != null){
+			pieceToMove = _blacks[tileToMoveFrom];
+		}else{
+			foreach (KeyValuePair<GameObject, GameObject> kvp in _blacks){
+				List<GameObject> moves = _boardManager.PossibleMovesBlacks(kvp.Key);
+				if(moves.Count > 0){
+					foreach (GameObject move in moves){
+						tileToMoveFrom = kvp.Key;
+						tileToMoveTo = move;
+						pieceToMove = _blacks[tileToMoveFrom];						
+						GameState state = new GameState(board, pieceToMove, tileToMoveFrom, tileToMoveTo);
+						states.Add(state);
+					}
+				}
+			}
+			foreach (GameState state in states){
+				Debug.Log(state._valueAdvanced);
+				if(highestValueState == null)
+					highestValueState = state;
+				else if(state._valueAdvanced >= highestValueState._valueAdvanced){
+					highestValueState = state;
+					highestStates.Add(state);
+				}
+			}
+
+			chosenState = highestStates.ElementAt(Random.Range(0, highestStates.Count));
+			pieceToMove = chosenState._pieceMoved;
+			tileToMoveFrom = chosenState._tileFrom;
+			tileToMoveTo = chosenState._tileTo;
+		}
+		//Debug.Log("HIGHEST: " + highestValueState._valueAdvanced);
+		UpdateBlacks(pieceToMove, tileToMoveFrom, tileToMoveTo);
+		_playManager.MoveBlackPiece(pieceToMove, tileToMoveFrom, tileToMoveTo);
+	}
+
 	private void ChooseRandomMove(){
 		IDictionary<GameObject, GameObject> board = _boardManager.GetBoard();
 		FillBlacks();
@@ -53,11 +104,11 @@ public class AIController : MonoBehaviour
 		tileToMoveTo = eats.Item2;
 		
 		if(tileToMoveFrom != null){
-			pieceToMove = blacks[tileToMoveFrom];
+			pieceToMove = _blacks[tileToMoveFrom];
 		}else{
 			while(moves.Count == 0){
-				GameObject key = blacks.ElementAt(Random.Range(0, blacks.Count)).Key;
-				if(blacks[key] != null){
+				GameObject key = _blacks.ElementAt(Random.Range(0, _blacks.Count)).Key;
+				if(_blacks[key] != null){
 					tileToMoveFrom = key;
 					pieceToMove = board[tileToMoveFrom];
 					moves = _boardManager.PossibleMovesBlacks(tileToMoveFrom);
@@ -75,7 +126,7 @@ public class AIController : MonoBehaviour
 		GameObject tileToMoveTo = null;
 		List<GameObject> moves = new List<GameObject>();
 		
-		foreach (KeyValuePair<GameObject, GameObject> kvp in blacks){
+		foreach (KeyValuePair<GameObject, GameObject> kvp in _blacks){
 			moves = _boardManager.PossibleMovesBlacks(kvp.Key);
 
 			foreach(GameObject pos in moves){
@@ -93,17 +144,17 @@ public class AIController : MonoBehaviour
     
 	private void UpdateBlacks(GameObject pieceMoved,GameObject tileToMoveFrom, GameObject tileToMoveTo){
 		//Setting previous position to null
-		blacks[tileToMoveFrom] = null;
+		_blacks[tileToMoveFrom] = null;
 
 		//Setting new position for piece
 		Destroy(_boardManager.GetBoard()[tileToMoveTo]);
-		blacks[tileToMoveTo] = pieceMoved;
+		_blacks[tileToMoveTo] = pieceMoved;
 	}
     
 	private void FillBlacks(){
 		foreach (KeyValuePair<GameObject, GameObject> kvp in _boardManager.GetBoard()){
 			if(kvp.Value != null && kvp.Value.name[0] == 'B')
-				blacks[kvp.Key] = kvp.Value;
+				_blacks[kvp.Key] = kvp.Value;
 		}
 	}
 
