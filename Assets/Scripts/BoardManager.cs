@@ -5,24 +5,23 @@ using UnityEngine.UI;
 
 public class BoardManager : MonoBehaviour
 {
-	public List<GameObject> tiles;
-	private IDictionary<GameObject, GameObject> board = new Dictionary<GameObject, GameObject>();
-	public List<GameObject> whitePieces;
-	public List<GameObject> blackPieces;
+	[SerializeField] private List<GameObject> _tiles;
+	[SerializeField] private List<GameObject> _whitePieces;
+	[SerializeField] private List<GameObject> _blackPieces;
+	private IDictionary<GameObject, GameObject> _board = new Dictionary<GameObject, GameObject>();
 
-	
-	private GameObject selectedTile;
+	private GameObject _selectedTile;
 	
 	
 	public void SetupBoard(){
 		int counter = 0;
-		foreach(GameObject i in tiles){
+		foreach(GameObject i in _tiles){
 			if(counter < 16)
-				board.Add(i, whitePieces[counter]);
+				_board.Add(i, _whitePieces[counter]);
 			else if(counter > 47)
-				board.Add(i, blackPieces[counter-48]);
+				_board.Add(i, _blackPieces[counter-48]);
 			else{
-				board.Add(i, null);
+				_board.Add(i, null);
 			}
 			counter++;
 		}
@@ -40,7 +39,7 @@ public class BoardManager : MonoBehaviour
 			string nextPos2 = nextPosCol1 + nextPosRow.ToString();
 			string nextPos3 = nextPosCol2 + nextPosRow.ToString();
 	
-			foreach (KeyValuePair<GameObject, GameObject> kvp in board)
+			foreach (KeyValuePair<GameObject, GameObject> kvp in _board)
 			{
 				//Check for each of the three possible positions
 				if(kvp.Key.name == nextPos1 || kvp.Key.name == nextPos2 || kvp.Key.name == nextPos3){
@@ -57,9 +56,9 @@ public class BoardManager : MonoBehaviour
 	
 	public List<GameObject> PossibleMovesBlacks(GameObject pos){
 		List<GameObject> moves = new List<GameObject>();
-		if(board[pos] == null)
+		if(_board[pos] == null)
 			return moves;
-		if(board[pos].name[0] == 'B'){
+		if(_board[pos].name[0] == 'B'){
 			//Setup of the possible next positions
 			char nextPosCol1 = (char)((int)pos.name[0] - 1);
 			char nextPosCol2 = (char)((int)pos.name[0] + 1);
@@ -68,7 +67,7 @@ public class BoardManager : MonoBehaviour
 			string nextPos2 = nextPosCol1 + nextPosRow.ToString();
 			string nextPos3 = nextPosCol2 + nextPosRow.ToString();
 		
-			foreach (KeyValuePair<GameObject, GameObject> kvp in board)
+			foreach (KeyValuePair<GameObject, GameObject> kvp in _board)
 			{
 				//Check for each of the three possible positions
 				if(kvp.Key.name == nextPos1 || kvp.Key.name == nextPos2 || kvp.Key.name == nextPos3){
@@ -87,7 +86,7 @@ public class BoardManager : MonoBehaviour
 	public void ChoosePiece(GameObject piece){
 		GameObject selectedPos = null;
 		SetAllBaseColor();
-		foreach (KeyValuePair<GameObject, GameObject> kvp in board)
+		foreach (KeyValuePair<GameObject, GameObject> kvp in _board)
 		{
 			if(piece == kvp.Value){
 				selectedPos = kvp.Key;
@@ -105,17 +104,17 @@ public class BoardManager : MonoBehaviour
 	
 	public void UpdateBoard(GameObject pieceMoved, GameObject tileToMoveTo){
 		GameObject tile = null;
-		foreach (KeyValuePair<GameObject, GameObject> kvp in board){
+		foreach (KeyValuePair<GameObject, GameObject> kvp in _board){
 			if(kvp.Value == pieceMoved){
 				tile = kvp.Key;
 			}
 		}
 		//Setting previous position to null
-		board[tile] = null;
+		_board[tile] = null;
 
 		//Setting new position for piece
-		Destroy(board[tileToMoveTo]);
-		board[tileToMoveTo] = pieceMoved;
+		Destroy(_board[tileToMoveTo]);
+		_board[tileToMoveTo] = pieceMoved;
 	}
 	
 	private void LightUpTile(GameObject tile){
@@ -133,22 +132,22 @@ public class BoardManager : MonoBehaviour
 	}
 	
 	public void SetAllBaseColor(){
-		foreach (KeyValuePair<GameObject, GameObject> kvp in board)
+		foreach (KeyValuePair<GameObject, GameObject> kvp in _board)
 		{
 			SetBaseColorTile(kvp.Key);
 		}
 	}
 	
 	public IDictionary<GameObject, GameObject> GetBoard(){
-		return board;
+		return _board;
 	}
 	
 	public void SetSelectedTile(GameObject tile){
-		selectedTile = tile;
+		_selectedTile = tile;
 	}
 	
 	public GameObject GetSelectedTile(){
-		return selectedTile;
+		return _selectedTile;
 	}
 
 }

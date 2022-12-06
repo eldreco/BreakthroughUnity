@@ -5,16 +5,16 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-	private GameObject piece;
-	private GameObject previousPiece;
-	private SpriteRenderer pieceSprite;
-	private SpriteRenderer previousPieceSprite;
-	private Color baseColor = new Color(1,1,1,1); //Change
+	private GameObject _piece;
+	private GameObject _previousPiece;
+	private SpriteRenderer _pieceSprite;
+	private SpriteRenderer _previousPieceSprite;
+	private Color _baseColor = new Color(1,1,1,1); //Change
 	
 	//References to other scripts
-	private BoardManager boardManager; 
-	private PlayManager playManager;
-	private GameManager gameManager;
+	private BoardManager _boardManager; 
+	private PlayManager _playManager;
+	private GameManager _gameManager;
 	
 	protected void Awake()
 	{
@@ -31,42 +31,42 @@ public class InputManager : MonoBehaviour
 	protected void Start()
 	{
 		//Other scripts
-		boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
-		playManager = gameObject.GetComponent<PlayManager>();
-		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
+		_playManager = gameObject.GetComponent<PlayManager>();
+		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	
 	public void SelectPiece(){
-		if(gameManager.GetActiveState() == GameManager.GameState.PLAYWHITES){
+		if(_gameManager.GetActiveState() == GameManager.GameState.PLAYWHITES){
 			//Get object clicked
 			Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
 			RaycastHit hit;
 			if (Physics.Raycast(ray, out hit)){
 				if(hit.transform.gameObject.name == "White"){ //Check if it's a white piece
-					piece = hit.transform.gameObject;
-					pieceSprite = piece.GetComponent<SpriteRenderer>();
+					_piece = hit.transform.gameObject;
+					_pieceSprite = _piece.GetComponent<SpriteRenderer>();
 					
 					//Highlight selected piece
-					pieceSprite.color = new Color (1,1,0,1);
+					_pieceSprite.color = new Color (1,1,0,1);
 					
 					//Change color of previously selected pieces back to normal color
-					if(previousPiece != null && piece != previousPiece)
-						previousPieceSprite.color = baseColor;
-					previousPiece = piece;
-					previousPieceSprite = pieceSprite;
+					if(_previousPiece != null && _piece != _previousPiece)
+						_previousPieceSprite.color = _baseColor;
+					_previousPiece = _piece;
+					_previousPieceSprite = _pieceSprite;
 					
 					//Call boardManager to display possible moves
-					boardManager.ChoosePiece(piece);
+					_boardManager.ChoosePiece(_piece);
 					
 					//Call playManager to set playPiece
-					playManager.SetPlayPiece(piece);
+					_playManager.SetPlayPiece(_piece);
 				}
 			}
 		}
 	}
 	
 	public void SelectTile(){
-		if(gameManager.GetActiveState() == GameManager.GameState.PLAYWHITES){
+		if(_gameManager.GetActiveState() == GameManager.GameState.PLAYWHITES){
 			GameObject tile = null;
 			
 			//Get object clicked
@@ -77,7 +77,7 @@ public class InputManager : MonoBehaviour
 					tile = hit.transform.gameObject;
 					
 					//Call playManager to move the piece to the new selected tile
-					playManager.PlayWhites(tile);
+					_playManager.PlayWhites(tile);
 				}
 			}
 		}

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class MainManager : MonoBehaviour
 {
 	public static MainManager Instance;
-	private Color bgColor;
+	private Color _bgColor;
 	
 	private void Awake()
 	{
@@ -28,35 +28,35 @@ public class MainManager : MonoBehaviour
 		Color black = new Color(0,0,0,0);
 		if (MainManager.Instance != null)
 		{
-			if(bgColor == black)
+			if(_bgColor == black)
 				SetBaseColor();
 			else
-				SetColor(bgColor);
+				SetColor(_bgColor);
 		}
-		Debug.Log(bgColor);
+		Debug.Log(_bgColor);
 	}
 	
 	// Update is called every frame, if the MonoBehaviour is enabled.
 	protected void Update()
 	{
-		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = bgColor;
+		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = _bgColor;
 	}
 	
 	public void SetBaseColor()
 	{
-		MainManager.Instance.bgColor = new Color(0.9f, 0.9f, 0.9f);
-		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = bgColor;
+		MainManager.Instance._bgColor = new Color(0.9f, 0.9f, 0.9f);
+		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = _bgColor;
 	}
 	
 	public void SetColor(Color color)
 	{
-		MainManager.Instance.bgColor = color;
-		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = bgColor;
+		MainManager.Instance._bgColor = color;
+		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = _bgColor;
 		SaveColor();
 	}
 	
 	public Color GetColor(){
-		return bgColor;
+		return _bgColor;
 	}
 	
 	[System.Serializable]
@@ -67,7 +67,7 @@ public class MainManager : MonoBehaviour
 	public void SaveColor()
 	{
 		SaveData data = new SaveData();
-		data.bgColor = bgColor;
+		data.bgColor = _bgColor;
 
 		string json = JsonUtility.ToJson(data);
 
@@ -82,7 +82,7 @@ public class MainManager : MonoBehaviour
 			string json = File.ReadAllText(path);
 			SaveData data = JsonUtility.FromJson<SaveData>(json);
 
-			bgColor = data.bgColor;
+			_bgColor = data.bgColor;
 		}
 	}
 	

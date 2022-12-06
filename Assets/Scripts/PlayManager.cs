@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class PlayManager : MonoBehaviour
 {
-	private GameObject piece;
+	private GameObject _piece;
 	
 	//References to other classes or objects
-	private GameManager gameManager;
-	private BoardManager boardManager;
-	private IDictionary<GameObject, GameObject> board;
+	private GameManager _gameManager;
+	private BoardManager _boardManager;
+	private IDictionary<GameObject, GameObject> _board;
 	
 	protected void Start()
 	{
-		boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
-		board = boardManager.GetBoard();
-		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
+		_board = _boardManager.GetBoard();
+		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 	
 	public void PlayWhites(GameObject nextTile){
-		GameObject tileFrom = boardManager.GetSelectedTile();
-		List<GameObject> moves = boardManager.PossibleMovesWhites(tileFrom);
+		GameObject tileFrom = _boardManager.GetSelectedTile();
+		List<GameObject> moves = _boardManager.PossibleMovesWhites(tileFrom);
 		for(int i = 0; i < moves.Count; i++){
 			if(moves[i] == nextTile){
-				MoveWhitePiece(piece,tileFrom ,nextTile);
-				boardManager.SetSelectedTile(null);
+				MoveWhitePiece(_piece,tileFrom ,nextTile);
+				_boardManager.SetSelectedTile(null);
 			}
 		}
 	}
@@ -32,7 +32,7 @@ public class PlayManager : MonoBehaviour
 	private void MoveWhitePiece(GameObject pieceToMove, GameObject tileToMoveFrom ,GameObject tileToMoveTo){
 		
 		//Update Board
-		boardManager.UpdateBoard(pieceToMove, tileToMoveTo);
+		_boardManager.UpdateBoard(pieceToMove, tileToMoveTo);
 		
 		//Move piece
 		Vector3 pos = new Vector3(tileToMoveTo.transform.position.x,
@@ -41,16 +41,16 @@ public class PlayManager : MonoBehaviour
 		pieceToMove.transform.position = pos;
 			
 		//Reset colors
-		boardManager.SetAllBaseColor();
+		_boardManager.SetAllBaseColor();
 		pieceToMove.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
 		
-		gameManager.LockPlay();
+		_gameManager.LockPlay();
 	}
 	
 	public void MoveBlackPiece(GameObject pieceToMove, GameObject tileToMoveFrom ,GameObject tileToMoveTo){
 		
 		//Update Board
-		boardManager.UpdateBoard(pieceToMove, tileToMoveTo);
+		_boardManager.UpdateBoard(pieceToMove, tileToMoveTo);
 		
 		//Move piece 
 		Vector3 pos = new Vector3(tileToMoveTo.transform.position.x,
@@ -60,6 +60,6 @@ public class PlayManager : MonoBehaviour
 	}
 	
 	public void SetPlayPiece(GameObject playPiece){
-		piece = playPiece;
+		_piece = playPiece;
 	}
 }

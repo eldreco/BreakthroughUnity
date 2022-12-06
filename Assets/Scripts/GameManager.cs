@@ -8,14 +8,14 @@ public class GameManager : MonoBehaviour
 {
 	//Setup the gamestates
 	public enum GameState{START, WHITESTURN, BLACKSTURN, PLAYWHITES, PLAYBLACKS, WONWHITE, WONBLACK}
-	public GameState activeState;
+	[SerializeField] private GameState _activeState;
 
-	public GameObject endText;
-	private bool lockedPlay = false;
+	[SerializeField] private GameObject _endText;
+	private bool _lockedPlay = false;
 	
 	//References to other classes
-	private BoardManager boardManager;
-	private AIController aiController;
+	private BoardManager _boardManager;
+	private AIController _aiController;
 	
 	private void Start(){
 
@@ -32,20 +32,20 @@ public class GameManager : MonoBehaviour
 		else if(CheckWinState() == "Blacks")
 			WinBlacks();
 		else{
-			if(activeState == GameState.PLAYWHITES && lockedPlay){
+			if(_activeState == GameState.PLAYWHITES && _lockedPlay){
 				BlacksTurn();
-			}else if(activeState == GameState.PLAYBLACKS && lockedPlay){
+			}else if(_activeState == GameState.PLAYBLACKS && _lockedPlay){
 				WhitesTurn();
 			}
 		}
 	}
 	
 	private void SetupGame(){
-		activeState = GameState.START;
-		boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
-		boardManager.SetupBoard();
-		aiController = GameObject.Find("AIController").GetComponent<AIController>();
-		endText.GetComponent<TMP_Text>().text = "";
+		_activeState = GameState.START;
+		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
+		_boardManager.SetupBoard();
+		_aiController = GameObject.Find("AIController").GetComponent<AIController>();
+		_endText.GetComponent<TMP_Text>().text = "";
 		WhitesTurn();
 	}
 	
@@ -69,22 +69,22 @@ public class GameManager : MonoBehaviour
 	
 	private void PlayBlacks(){
 		SetActiveState(GameState.PLAYBLACKS);
-		StartCoroutine(aiController.Play());
+		StartCoroutine(_aiController.Play());
 	}
 	
 	private void WinWhites(){
 		SetActiveState(GameState.WONWHITE);
-		endText.GetComponent<TMP_Text>().text = "YOU WIN!";
+		_endText.GetComponent<TMP_Text>().text = "YOU WIN!";
 	}
 	
 	private void WinBlacks(){
 		SetActiveState(GameState.WONBLACK);
-		endText.GetComponent<TMP_Text>().text = "YOU LOSE";
+		_endText.GetComponent<TMP_Text>().text = "YOU LOSE";
 	}
 	private string CheckWinState(){
 		bool noWhites = true;
 		bool noBlacks = true;
-		foreach (KeyValuePair<GameObject, GameObject> kvp in boardManager.GetBoard()){
+		foreach (KeyValuePair<GameObject, GameObject> kvp in _boardManager.GetBoard()){
 			if(kvp.Value != null){
 				if(kvp.Key.name[1] == '8' && kvp.Value.name[0] == 'W')//Whites win by getting to top
 					return "Whites";
@@ -105,19 +105,19 @@ public class GameManager : MonoBehaviour
 	}
 	
 	public void SetActiveState(GameState state){
-		activeState = state;
+		_activeState = state;
 	}
 	
 	public GameState GetActiveState(){
-		return activeState;
+		return _activeState;
 	}
 	
 	public void LockPlay(){
-		lockedPlay = true;
+		_lockedPlay = true;
 	}
 	
 	public void UnlockPlay(){
-		lockedPlay = false;
+		_lockedPlay = false;
 	}
 	
 	public void LoadMenu(){
