@@ -16,10 +16,23 @@ public class GameManager : MonoBehaviour
 	//References to other classes
 	private BoardManager _boardManager;
 	private AIController _aiController;
+	private UIManager 	 _uiManager;
 	
-	private void Start(){
-
+	private void Awake() {
 		SetupGame();
+
+	}
+
+	private void Start(){
+		_uiManager.GoAnim();
+		int player = Random.Range(0,2);
+		if (player == 0){
+			StartCoroutine(_uiManager.SetYourGoAnim());
+			WhitesTurn();
+		}  else {
+			StartCoroutine(_uiManager.SetOppGoAnim());
+			BlacksTurn();
+		}
 	}
 	
 	private void Update(){
@@ -46,7 +59,7 @@ public class GameManager : MonoBehaviour
 		_boardManager.SetupBoard();
 		_aiController = GameObject.Find("AIController").GetComponent<AIController>();
 		_endText.GetComponent<TMP_Text>().text = "";
-		WhitesTurn();
+		_uiManager = gameObject.GetComponent<UIManager>();
 	}
 	
 	private void WhitesTurn(){

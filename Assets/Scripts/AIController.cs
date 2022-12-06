@@ -9,10 +9,11 @@ public class AIController : MonoBehaviour
 	private BoardManager _boardManager;
 	private GameManager _gameManager;
 	private PlayManager _playManager;
+	private bool _firstPlay;
 	
 	private IDictionary<GameObject, GameObject> _blacks = new Dictionary<GameObject, GameObject>();
 
-    void Start()
+    void Awake()
     {
 	    Setup();
     }
@@ -21,14 +22,22 @@ public class AIController : MonoBehaviour
 		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
 		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		_playManager = GameObject.Find("GameManager").GetComponent<PlayManager>();
+		_firstPlay = true;
 	}
 	
 	
 	public IEnumerator Play(){
+		Debug.Log(_gameManager);
+		Debug.Log(_gameManager.GetActiveState());
 		if(_gameManager.GetActiveState() == GameManager.GameState.PLAYBLACKS){
 			
+			if(_firstPlay)
+				yield return new WaitForSeconds(2);
+			else{
 			//Wait one second to play for better UX
-			yield return new WaitForSeconds(1);
+				yield return new WaitForSeconds(1);
+				_firstPlay = false;
+			}
 
 			ChooseMove();
 			_gameManager.LockPlay();
