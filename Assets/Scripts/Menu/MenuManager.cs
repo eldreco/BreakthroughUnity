@@ -17,12 +17,17 @@ public class MenuManager : MonoBehaviour
 	}
 
 	public void LoadMainEasy(){
-		_mainManager.SetDifficulty("Easy");
+		_mainManager.SetMode("Easy");
 		SceneManager.LoadScene("Main");
 	}
 
 	public void LoadMainMedium(){
-		_mainManager.SetDifficulty("Medium");
+		_mainManager.SetMode("Medium");
+		SceneManager.LoadScene("Main");
+	}
+
+	public void LoadMainTwoPlayers(){
+		_mainManager.SetMode("TwoPlayers");
 		SceneManager.LoadScene("Main");
 	}
 	

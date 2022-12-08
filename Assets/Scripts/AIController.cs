@@ -24,7 +24,8 @@ public class AIController : MonoBehaviour
 		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
 		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		_playManager = GameObject.Find("GameManager").GetComponent<PlayManager>();
-		_mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
+		if(GameObject.Find("MainManager") != null)
+			_mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
 		_firstPlay = true;
 	}
 	
@@ -32,13 +33,14 @@ public class AIController : MonoBehaviour
 	public IEnumerator Play(){
 		if(_gameManager.GetActiveState() == GameManager.GameState.PLAYBLACKS){
 			
-			if(_firstPlay)
+			if(_firstPlay){
 				yield return new WaitForSeconds(2);
-			else{
+				_firstPlay = false;
+
+			}else
 			//Wait one second to play for better UX
 				yield return new WaitForSeconds(1);
-				_firstPlay = false;
-			}
+			
 
 			ChooseMove();
 			_gameManager.LockPlay();
@@ -46,10 +48,15 @@ public class AIController : MonoBehaviour
 	}
 	
 	private void ChooseMove(){ //Change when different ais implemented
-		if(_mainManager._difficulty == "Easy")
-			ChooseRandomMove();
-		else if(_mainManager._difficulty == "Medium")
+		if(_mainManager != null){
+			if(_mainManager._mode == "Easy")
+				ChooseRandomMove();
+			else if(_mainManager._mode == "Medium")
+				AdvancedPlayerMove();
+		}
+		else{
 			AdvancedPlayerMove();
+		}
 	}
 	
 	private void AdvancedPlayerMove(){

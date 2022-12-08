@@ -17,13 +17,35 @@ public class GameManager : MonoBehaviour
 	private BoardManager _boardManager;
 	private AIController _aiController;
 	private UIManager 	 _uiManager;
+	private MainManager  _mainManager;
+
+	[SerializeField] private string _gameMode;
 	
 	private void Awake() {
 		SetupGame();
+	}
 
+	private void SetupGame(){
+
+		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
+		_boardManager.SetupBoard();
+		_aiController = GameObject.Find("AIController").GetComponent<AIController>();
+		_endText.GetComponent<TMP_Text>().text = "";
+		_uiManager = gameObject.GetComponent<UIManager>();
+		if(GameObject.Find("MainManager") != null)
+			_mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
+		if(_mainManager != null)
+			_gameMode = _mainManager._mode;
+		else
+			_gameMode = "TwoPlayers";
 	}
 
 	private void Start(){
+		StartManager();	
+	}
+	
+	private void StartManager(){
+		_activeState = GameState.START;
 		_uiManager.GoAnim();
 		int player = Random.Range(0,2);
 		if (player == 0){
@@ -33,8 +55,10 @@ public class GameManager : MonoBehaviour
 			StartCoroutine(_uiManager.SetOppGoAnim());
 			BlacksTurn();
 		}
+
+			
 	}
-	
+
 	private void Update(){
 		CheckPlayed();
 	}
@@ -51,15 +75,6 @@ public class GameManager : MonoBehaviour
 				WhitesTurn();
 			}
 		}
-	}
-	
-	private void SetupGame(){
-		_activeState = GameState.START;
-		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
-		_boardManager.SetupBoard();
-		_aiController = GameObject.Find("AIController").GetComponent<AIController>();
-		_endText.GetComponent<TMP_Text>().text = "";
-		_uiManager = gameObject.GetComponent<UIManager>();
 	}
 	
 	private void WhitesTurn(){
@@ -82,18 +97,27 @@ public class GameManager : MonoBehaviour
 	
 	private void PlayBlacks(){
 		SetActiveState(GameState.PLAYBLACKS);
-		StartCoroutine(_aiController.Play());
+		if(_gameMode != "TwoPlayers")
+			StartCoroutine(_aiController.Play());
 	}
 	
 	private void WinWhites(){
 		SetActiveState(GameState.WONWHITE);
-		_endText.GetComponent<TMP_Text>().text = "YOU WIN!";
+		if(_gameMode != "TwoPlayers")
+			_endText.GetComponent<TMP_Text>().text = "YOU WIN!";
+		else
+			_endText.GetComponent<TMP_Text>().text = "WHITES WIN!";
+
 	}
 	
 	private void WinBlacks(){
 		SetActiveState(GameState.WONBLACK);
-		_endText.GetComponent<TMP_Text>().text = "YOU LOSE";
+		if(_gameMode != "TwoPlayers")
+			_endText.GetComponent<TMP_Text>().text = "YOU LOSE!";
+		else
+			_endText.GetComponent<TMP_Text>().text = "BLACKS WIN!";
 	}
+
 	private string CheckWinState(){
 		bool noWhites = true;
 		bool noBlacks = true;

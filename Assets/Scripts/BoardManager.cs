@@ -9,10 +9,14 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] private List<GameObject> _whitePieces;
 	[SerializeField] private List<GameObject> _blackPieces;
 	private IDictionary<GameObject, GameObject> _board = new Dictionary<GameObject, GameObject>();
+	private GameObject _pieces;
 
 	private GameObject _selectedTile;
 	
-	
+	private void Start() {
+		_pieces = GameObject.Find("Pieces");
+	}
+
 	public void SetupBoard(){
 		int counter = 0;
 		foreach(GameObject i in _tiles){
@@ -95,11 +99,16 @@ public class BoardManager : MonoBehaviour
 		
 		//Set the selected tile to later move the piece from that tile
 		SetSelectedTile(selectedPos);
-		
+
+		List<GameObject> nextMoves = new List<GameObject>();
 		//Light up the tiles of next possible moves
-		List<GameObject> nextMoves = PossibleMovesWhites(selectedPos);
+		if(piece.name[0] == 'W')
+			nextMoves = PossibleMovesWhites(selectedPos);
+		else if(piece.name[0] == 'B')
+			nextMoves = PossibleMovesBlacks(selectedPos);
 		foreach(GameObject obj in nextMoves)
 			LightUpTile(obj);
+		SendPiecesBack();
 	}
 	
 	public void UpdateBoard(GameObject pieceMoved, GameObject tileToMoveTo){
@@ -138,6 +147,18 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 	
+	public void SendPiecesFront(){
+		_pieces.transform.position = new Vector3(_pieces.transform.position.x,
+												 _pieces.transform.position.y,
+												 0);
+	}
+
+	public void SendPiecesBack(){
+		_pieces.transform.position = new Vector3(_pieces.transform.position.x,
+												 _pieces.transform.position.y,
+												 100f);
+	}
+
 	public IDictionary<GameObject, GameObject> GetBoard(){
 		return _board;
 	}

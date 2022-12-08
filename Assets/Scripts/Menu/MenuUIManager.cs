@@ -12,9 +12,9 @@ public class MenuUIManager : MonoBehaviour
     private bool _playPressed;
 
     private void Awake() {
-        _backgrounds =      GameObject.Find("Backgrounds");
-        _playButton =       GameObject.Find("PlayButton");
-        _modesUI = GameObject.Find("ModesUI");
+        _backgrounds = GameObject.Find("Backgrounds");
+        _playButton =  GameObject.Find("PlayButton");
+        _modesUI =     GameObject.Find("ModesUI");
     }
 
     private void Start() {
