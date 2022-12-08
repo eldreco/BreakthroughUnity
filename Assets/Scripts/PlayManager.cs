@@ -34,7 +34,6 @@ public class PlayManager : MonoBehaviour
 				_boardManager.SetSelectedTile(null);
 			}
 		}
-		_boardManager.SendPiecesFront();
 	}
 	
 	public void PlayBlacks(GameObject nextTile){
@@ -46,7 +45,6 @@ public class PlayManager : MonoBehaviour
 				_boardManager.SetSelectedTile(null);
 			}
 		}
-		_boardManager.SendPiecesFront();
 	}
 
 	private void MoveWhitePiece(GameObject pieceToMove, GameObject tileToMoveFrom ,GameObject tileToMoveTo){
@@ -64,6 +62,7 @@ public class PlayManager : MonoBehaviour
 		_boardManager.SetAllBaseColor();
 		pieceToMove.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
 		
+		_boardManager.SendBlacksFront();
 		_gameManager.LockPlay();
 	}
 	
@@ -81,6 +80,7 @@ public class PlayManager : MonoBehaviour
 		_boardManager.SetAllBaseColor();
 		pieceToMove.GetComponent<SpriteRenderer>().sprite = _blackPieceSprite;
 
+		_boardManager.SendWhitesFront();
 		_gameManager.LockPlay();
 	}
 	

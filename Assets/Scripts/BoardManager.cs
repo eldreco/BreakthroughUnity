@@ -9,13 +9,26 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] private List<GameObject> _whitePieces;
 	[SerializeField] private List<GameObject> _blackPieces;
 	private IDictionary<GameObject, GameObject> _board = new Dictionary<GameObject, GameObject>();
-	private GameObject _pieces;
+	[SerializeField] private GameObject _whites;
+	[SerializeField] private GameObject _blacks;
+
+	private GameManager _gameManager;
+
+	private const int BACK = 100;
+	private const int FRONT = 80;
 
 	private GameObject _selectedTile;
+
+	[SerializeField] private Sprite _blackPieceSprite;
+
 	
-	private void Start() {
-		_pieces = GameObject.Find("Pieces");
-	}
+	private void Awake() {
+		SetupBoard();
+		_whites = gameObject.transform.Find("Pieces/Whites").gameObject;
+        _blacks = gameObject.transform.Find("Pieces/Blacks").gameObject;
+		_gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+		Debug.Log(_gameManager);
+    }
 
 	public void SetupBoard(){
 		int counter = 0;
@@ -31,9 +44,21 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 	
-	
+	private void Update() {
+		foreach (KeyValuePair<GameObject, GameObject> kvp in _board){
+			if(kvp.Value != null){
+				if(kvp.Value.name[0] == 'W' && _gameManager.GetActiveState() == GameManager.GameState.PLAYBLACKS)
+					kvp.Value.gameObject.GetComponent<SpriteRenderer>().color = new Color(1,1,1,1);
+				else if(kvp.Value.name[0] == 'B' && _gameManager.GetActiveState() == GameManager.GameState.PLAYWHITES)
+					kvp.Value.gameObject.GetComponent<SpriteRenderer>().sprite = _blackPieceSprite;
+			}
+		}
+	}
+
 	public List<GameObject> PossibleMovesWhites(GameObject pos){
 		List<GameObject> moves = new List<GameObject>();
+		if(pos == null || _board[pos] == null)
+			return moves;
 		if(GetSelectedTile() != null){
 			//Setup of the possible next positions
 			char nextPosCol1 = (char)((int)pos.name[0] + 1);
@@ -43,8 +68,7 @@ public class BoardManager : MonoBehaviour
 			string nextPos2 = nextPosCol1 + nextPosRow.ToString();
 			string nextPos3 = nextPosCol2 + nextPosRow.ToString();
 	
-			foreach (KeyValuePair<GameObject, GameObject> kvp in _board)
-			{
+			foreach (KeyValuePair<GameObject, GameObject> kvp in _board){
 				//Check for each of the three possible positions
 				if(kvp.Key.name == nextPos1 || kvp.Key.name == nextPos2 || kvp.Key.name == nextPos3){
 					//Check if there is either no piece or an enemy piece in diagonals
@@ -60,7 +84,7 @@ public class BoardManager : MonoBehaviour
 	
 	public List<GameObject> PossibleMovesBlacks(GameObject pos){
 		List<GameObject> moves = new List<GameObject>();
-		if(_board[pos] == null)
+		if(pos == null || _board[pos] == null)
 			return moves;
 		if(_board[pos].name[0] == 'B'){
 			//Setup of the possible next positions
@@ -102,13 +126,16 @@ public class BoardManager : MonoBehaviour
 
 		List<GameObject> nextMoves = new List<GameObject>();
 		//Light up the tiles of next possible moves
-		if(piece.name[0] == 'W')
+		if(piece.name[0] == 'W'){
 			nextMoves = PossibleMovesWhites(selectedPos);
-		else if(piece.name[0] == 'B')
+			SendBlacksBack();
+		}else if(piece.name[0] == 'B'){
 			nextMoves = PossibleMovesBlacks(selectedPos);
+			SendWhitesBack();
+		}
 		foreach(GameObject obj in nextMoves)
 			LightUpTile(obj);
-		SendPiecesBack();
+		// SendPiecesBack();
 	}
 	
 	public void UpdateBoard(GameObject pieceMoved, GameObject tileToMoveTo){
@@ -147,16 +174,28 @@ public class BoardManager : MonoBehaviour
 		}
 	}
 	
-	public void SendPiecesFront(){
-		_pieces.transform.position = new Vector3(_pieces.transform.position.x,
-												 _pieces.transform.position.y,
-												 0);
+	public void SendWhitesFront(){
+		_whites.transform.position = new Vector3(_whites.transform.position.x,
+												 _whites.transform.position.y,
+												 FRONT);
 	}
 
-	public void SendPiecesBack(){
-		_pieces.transform.position = new Vector3(_pieces.transform.position.x,
-												 _pieces.transform.position.y,
-												 100f);
+	public void SendWhitesBack(){
+		_whites.transform.position = new Vector3(_whites.transform.position.x,
+												 _whites.transform.position.y,
+												 BACK);
+	}
+
+	public void SendBlacksFront(){
+		_blacks.transform.position = new Vector3(_blacks.transform.position.x,
+												 _blacks.transform.position.y,
+												 FRONT);
+	}
+
+	public void SendBlacksBack(){
+		_blacks.transform.position = new Vector3(_blacks.transform.position.x,
+												 _blacks.transform.position.y,
+												 BACK);
 	}
 
 	public IDictionary<GameObject, GameObject> GetBoard(){

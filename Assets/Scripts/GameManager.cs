@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 	private void SetupGame(){
 
 		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
-		_boardManager.SetupBoard();
+		// _boardManager.SetupBoard();
 		_aiController = GameObject.Find("AIController").GetComponent<AIController>();
 		_endText.GetComponent<TMP_Text>().text = "";
 		_uiManager = gameObject.GetComponent<UIManager>();
