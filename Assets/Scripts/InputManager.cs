@@ -50,8 +50,6 @@ public class InputManager : MonoBehaviour
 			bool shouldSelectBlackPiece = _gameManager.GetActiveState() == GameManager.GameState.PLAYBLACKS &&
 									      _gameMode == "TwoPlayers" && hit.transform.gameObject.name[0] == 'B' && 
 										  hit.transform.gameObject.name[1] == 'l';
-			Debug.Log("W: " + shouldSelectWhitePiece);
-			Debug.Log("B: " + shouldSelectBlackPiece);
 			if(shouldSelectWhitePiece)
 				SelectWhitePiece(hit);
 			else if(shouldSelectBlackPiece)
@@ -60,7 +58,6 @@ public class InputManager : MonoBehaviour
 	}
 	
 	private void SelectWhitePiece(RaycastHit hit){
-		Debug.Log("WHITE");
         _piece = hit.transform.gameObject;
         _pieceSprite = _piece.GetComponent<SpriteRenderer>();
 
@@ -78,7 +75,6 @@ public class InputManager : MonoBehaviour
 	}
 
 	private void SelectBlackPiece(RaycastHit hit){
-		Debug.Log("BLACK");
         _piece = hit.transform.gameObject;
         _pieceSprite = _piece.GetComponent<SpriteRenderer>();
 
@@ -97,7 +93,6 @@ public class InputManager : MonoBehaviour
 
     public void SelectTile(){
         GameObject tile = null;
-		Debug.Log("TILE");
         //Get object clicked
         Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
         RaycastHit hit;

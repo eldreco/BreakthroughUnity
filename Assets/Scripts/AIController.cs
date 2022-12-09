@@ -51,7 +51,7 @@ public class AIController : MonoBehaviour
 		if(_mainManager != null){
 			if(_mainManager._mode == "Easy")
 				ChooseRandomMove();
-			else if(_mainManager._mode == "Medium")
+			else if(_mainManager._mode == "Medium" || _mainManager._mode == "Hard")
 				AdvancedPlayerMove();
 		}
 		else{
@@ -72,9 +72,15 @@ public class AIController : MonoBehaviour
 		GameState chosenState = null;
 
 		(GameObject, GameObject) eats = CanEat();
-		tileToMoveFrom = eats.Item1;
-		tileToMoveTo = eats.Item2;
-		
+		(GameObject, GameObject) wins = CanWin();
+		tileToMoveFrom = wins.Item1;
+		tileToMoveTo = wins.Item2;
+		if(tileToMoveTo == null || tileToMoveFrom == null){
+			tileToMoveFrom = eats.Item1;
+			tileToMoveTo = eats.Item2;
+		}
+
+				
 		if(tileToMoveFrom != null){
 			pieceToMove = _blacks[tileToMoveFrom];
 		}else{
@@ -84,22 +90,33 @@ public class AIController : MonoBehaviour
 					foreach (GameObject move in moves){
 						tileToMoveFrom = kvp.Key;
 						tileToMoveTo = move;
-						pieceToMove = _blacks[tileToMoveFrom];						
+						pieceToMove = _blacks[tileToMoveFrom];		
 						GameState state = new GameState(board, pieceToMove, tileToMoveFrom, tileToMoveTo);
 						states.Add(state);
 					}
 				}
 			}
+		
 			foreach (GameState state in states){
 				if(highestValueState == null)
 					highestValueState = state;
-				else if(state._valueAdvanced >= highestValueState._valueAdvanced){
-					highestValueState = state;
-					highestStates.Add(state);
+				else if(_mainManager._mode == "Medium"){
+					if(state._valueMedium >= highestValueState._valueMedium){
+						highestValueState = state;
+						highestStates.Add(state);
+					}
+				}else if(_mainManager._mode == "Hard"){
+					if(state._valueHard >= highestValueState._valueHard){
+						highestValueState = state;
+						highestStates.Add(state);
+					}
 				}
 			}
 
-			chosenState = highestStates.ElementAt(Random.Range(0, highestStates.Count));
+			if(highestStates.Count > 0)
+				chosenState = highestStates.ElementAt(Random.Range(0, highestStates.Count));
+			else
+				chosenState = states.ElementAt(Random.Range(0, states.Count));
 			pieceToMove = chosenState._pieceMoved;
 			tileToMoveFrom = chosenState._tileFrom;
 			tileToMoveTo = chosenState._tileTo;
@@ -117,8 +134,11 @@ public class AIController : MonoBehaviour
 		List<GameObject> moves = new List<GameObject>();
 
 		(GameObject, GameObject) eats = CanEat();
+		(GameObject, GameObject) wins = CanWin();
 		tileToMoveFrom = eats.Item1;
 		tileToMoveTo = eats.Item2;
+		tileToMoveFrom = wins.Item1;
+		tileToMoveTo = wins.Item2;
 		
 		if(tileToMoveFrom != null){
 			pieceToMove = _blacks[tileToMoveFrom];
@@ -152,6 +172,25 @@ public class AIController : MonoBehaviour
 						tileToMoveFrom = kvp.Key;
 						tileToMoveTo = pos;
 					}
+				}
+			}
+		}
+		
+		return (tileToMoveFrom, tileToMoveTo);
+	}
+	
+	private (GameObject, GameObject) CanWin(){
+		GameObject tileToMoveFrom = null;
+		GameObject tileToMoveTo = null;
+		List<GameObject> moves = new List<GameObject>();
+		
+		foreach (KeyValuePair<GameObject, GameObject> kvp in _blacks){
+			moves = _boardManager.PossibleMovesBlacks(kvp.Key);
+
+			foreach(GameObject pos in moves){
+				if(pos.name[1] == '1'){
+					tileToMoveFrom = kvp.Key;
+					tileToMoveTo = pos;
 				}
 			}
 		}

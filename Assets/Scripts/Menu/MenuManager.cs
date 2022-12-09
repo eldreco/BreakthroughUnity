@@ -25,6 +25,11 @@ public class MenuManager : MonoBehaviour
 		_mainManager.SetMode("Medium");
 		SceneManager.LoadScene("Main");
 	}
+	
+	public void LoadMainHard(){
+		_mainManager.SetMode("Hard");
+		SceneManager.LoadScene("Main");
+	}
 
 	public void LoadMainTwoPlayers(){
 		_mainManager.SetMode("TwoPlayers");
