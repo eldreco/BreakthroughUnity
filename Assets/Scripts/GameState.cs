@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameState
 {
     public int _valueMedium {get; private set;}
-    public int _valueHard {get; private set;}
+	public int _valueHard {get; private set;}
     public GameObject _pieceMoved {get; private set;}
     public GameObject _tileFrom {get; private set;}
     public GameObject _tileTo {get; private set;}
@@ -39,33 +39,46 @@ public class GameState
 		string nextPos2 = nextPosCol2 + nextPosRow.ToString();
 		string nextPos3 = _tileTo.name[0] + nextPosRow.ToString();
 		string nextPos4 = _tileTo.name[0] + (nextPosRow + 1).ToString();
+		string nextPos5 = _tileTo.name[0] + (nextPosRow + 2).ToString();
+		
+		if(_board[_tileTo] != null){
+			_valueHard += 2000;
+			Debug.Log("HEREEEEE" + _valueHard);
+		}
 		
 		foreach (KeyValuePair<GameObject, GameObject> kvp in _board){
             if(kvp.Value != null){
 	            if(kvp.Value.name[0] == 'B'){
-		            _valueHard += 9 - int.Parse(char.ToString(kvp.Key.name[1]));
+		            _valueHard += (9 - int.Parse(char.ToString(kvp.Key.name[1]))) * 100;
 		            if(GameObject.Find(nextPos3) != null &&  _board[GameObject.Find(nextPos3)] != null){
 		            	if(_board[GameObject.Find(nextPos3)].name[0] == 'B')
-		            		_valueHard += 10;
+		            		_valueHard += 100;
 		            	if(GameObject.Find(nextPos4) != null &&  _board[GameObject.Find(nextPos4)] != null){
 			            	if(_board[GameObject.Find(nextPos4)].name[0] == 'B')
-				            	_valueHard += 10;	
+				            	_valueHard += 1000;	
+				            if(GameObject.Find(nextPos5) != null &&  _board[GameObject.Find(nextPos5)] != null){
+					            if(_board[GameObject.Find(nextPos5)].name[0] == 'B')
+						            _valueHard += 10000;	
+				            }
 		            	}
 		            }
 		            	
 	            }
             }
-
-			bool couldBeEaten = false;
-			bool eatenPosNotNulls1 = GameObject.Find(nextPos1) != null && _board[GameObject.Find(nextPos1)] != null;
-			bool eatenPosNotNulls2 = GameObject.Find(nextPos2) != null && _board[GameObject.Find(nextPos2)] != null;
-			if(eatenPosNotNulls1)
-				couldBeEaten = _board[GameObject.Find(nextPos1)].name[0] == 'W';
-			else if(eatenPosNotNulls2)
-				couldBeEaten = _board[GameObject.Find(nextPos2)].name[0] == 'W';
+		}
+		
+		
+		bool couldBeEaten = false;
+		bool eatenPosNotNulls1 = GameObject.Find(nextPos1) != null && _board[GameObject.Find(nextPos1)] != null;
+		bool eatenPosNotNulls2 = GameObject.Find(nextPos2) != null && _board[GameObject.Find(nextPos2)] != null;
+		if(eatenPosNotNulls1)
+			couldBeEaten = _board[GameObject.Find(nextPos1)].name[0] == 'W';
+		else if(eatenPosNotNulls2)
+			couldBeEaten = _board[GameObject.Find(nextPos2)].name[0] == 'W';
 			
-			if(couldBeEaten)
-				_valueHard = 0;
-        }
+		if(couldBeEaten)
+			_valueHard -= 1000;
+		
+		Debug.Log(_valueHard);
     }
 }

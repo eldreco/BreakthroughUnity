@@ -71,14 +71,14 @@ public class AIController : MonoBehaviour
 		List<GameState> highestStates = new List<GameState>();
 		GameState chosenState = null;
 
-		(GameObject, GameObject) eats = CanEat();
+		//(GameObject, GameObject) eats = CanEat();
 		(GameObject, GameObject) wins = CanWin();
 		tileToMoveFrom = wins.Item1;
 		tileToMoveTo = wins.Item2;
-		if(tileToMoveTo == null || tileToMoveFrom == null){
-			tileToMoveFrom = eats.Item1;
-			tileToMoveTo = eats.Item2;
-		}
+		//if(tileToMoveTo == null || tileToMoveFrom == null){
+		//	tileToMoveFrom = eats.Item1;
+		//	tileToMoveTo = eats.Item2;
+		//}
 
 				
 		if(tileToMoveFrom != null){
@@ -112,14 +112,24 @@ public class AIController : MonoBehaviour
 					}
 				}
 			}
+			
+			foreach(GameState s in highestStates){
+				if(chosenState == null)
+					chosenState = s;
+				else if(s._valueHard > chosenState._valueHard)
+					chosenState = s;
+				
+			}
 
-			if(highestStates.Count > 0)
+			if(chosenState == null && highestStates.Count>0)
 				chosenState = highestStates.ElementAt(Random.Range(0, highestStates.Count));
-			else
+			if(chosenState == null)
 				chosenState = states.ElementAt(Random.Range(0, states.Count));
 			pieceToMove = chosenState._pieceMoved;
 			tileToMoveFrom = chosenState._tileFrom;
 			tileToMoveTo = chosenState._tileTo;
+			
+			Debug.Log("VALUE: "+chosenState._valueHard);
 		}
 		UpdateBlacks(pieceToMove, tileToMoveFrom, tileToMoveTo);
 		_playManager.MoveBlackPiece(pieceToMove, tileToMoveFrom, tileToMoveTo);
