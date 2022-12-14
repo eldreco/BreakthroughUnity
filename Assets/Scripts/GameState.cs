@@ -42,13 +42,15 @@ public class GameState
 		string nextPos5 = _tileTo.name[0] + (nextPosRow + 2).ToString();
 		
 		if(_board[_tileTo] != null){
-			_valueHard += 2000;
+			_valueHard += 3000;
 			Debug.Log("HEREEEEE" + _valueHard);
 		}
 		
 		foreach (KeyValuePair<GameObject, GameObject> kvp in _board){
             if(kvp.Value != null){
 	            if(kvp.Value.name[0] == 'B'){
+					if(kvp.Key.name[0] == 'B' || kvp.Key.name[0] == 'D' || kvp.Key.name[0] == 'E' || kvp.Key.name[0] == 'G')
+						_valueHard += 100;
 		            _valueHard += (9 - int.Parse(char.ToString(kvp.Key.name[1]))) * 100;
 		            if(GameObject.Find(nextPos3) != null &&  _board[GameObject.Find(nextPos3)] != null){
 		            	if(_board[GameObject.Find(nextPos3)].name[0] == 'B')
@@ -77,7 +79,7 @@ public class GameState
 			couldBeEaten = _board[GameObject.Find(nextPos2)].name[0] == 'W';
 			
 		if(couldBeEaten)
-			_valueHard -= 1000;
+			_valueHard -= 2000;
 		
 		Debug.Log(_valueHard);
     }

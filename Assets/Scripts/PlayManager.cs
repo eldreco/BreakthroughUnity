@@ -12,12 +12,14 @@ public class PlayManager : MonoBehaviour
 	private GameManager _gameManager;
 	private BoardManager _boardManager;
 	private InputManager _inputManager;
+	private AudioPlayer _audioPlayer;
 	private IDictionary<GameObject, GameObject> _board;
 	
 	private void Awake() {
         _boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		_inputManager = gameObject.GetComponent<InputManager>();
+		_audioPlayer = gameObject.GetComponent<AudioPlayer>();
     }
 
     protected void Start()
@@ -64,6 +66,8 @@ public class PlayManager : MonoBehaviour
 		
 		_boardManager.SendBlacksFront();
 		_gameManager.LockPlay();
+
+		_audioPlayer.PlayAudioWhiteMove();
 	}
 	
 	public void MoveBlackPiece(GameObject pieceToMove, GameObject tileToMoveFrom ,GameObject tileToMoveTo){
@@ -82,6 +86,8 @@ public class PlayManager : MonoBehaviour
 
 		_boardManager.SendWhitesFront();
 		_gameManager.LockPlay();
+
+		_audioPlayer.PlayAudioBlackMove();
 	}
 	
 	public void SetPlayPiece(GameObject playPiece){

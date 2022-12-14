@@ -39,7 +39,7 @@ public class AIController : MonoBehaviour
 
 			}else
 			//Wait one second to play for better UX
-				yield return new WaitForSeconds(1);
+				yield return new WaitForSeconds(0.5f);
 			
 
 			ChooseMove();
@@ -71,16 +71,10 @@ public class AIController : MonoBehaviour
 		List<GameState> highestStates = new List<GameState>();
 		GameState chosenState = null;
 
-		//(GameObject, GameObject) eats = CanEat();
 		(GameObject, GameObject) wins = CanWin();
 		tileToMoveFrom = wins.Item1;
 		tileToMoveTo = wins.Item2;
-		//if(tileToMoveTo == null || tileToMoveFrom == null){
-		//	tileToMoveFrom = eats.Item1;
-		//	tileToMoveTo = eats.Item2;
-		//}
-
-				
+		
 		if(tileToMoveFrom != null){
 			pieceToMove = _blacks[tileToMoveFrom];
 		}else{
