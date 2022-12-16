@@ -50,15 +50,32 @@ public class GameManager : MonoBehaviour
 		int player = Random.Range(0,2);
 		if (player == 0){
 			StartCoroutine(_uiManager.SetYourGoAnim());
+			StartCoroutine(SetTextGo(player));
 			WhitesTurn();
 		}  else {
 			StartCoroutine(_uiManager.SetOppGoAnim());
+			StartCoroutine(SetTextGo(player));
 			BlacksTurn();
 		}
 
 			
 	}
-
+	private IEnumerator SetTextGo(int player){
+		yield return new WaitForSeconds(1);
+		if (player == 0){
+			if(_gameMode == "TwoPlayers")
+				_endText.GetComponent<TMP_Text>().text = "Whites to move";
+			else
+				_endText.GetComponent<TMP_Text>().text = "Your go";
+		}  else {
+			if(_gameMode == "TwoPlayers")
+				_endText.GetComponent<TMP_Text>().text = "Blacks to move";
+			else
+				_endText.GetComponent<TMP_Text>().text = "Your opponent's go";
+		}
+		yield return new WaitForSeconds(2);
+		_endText.GetComponent<TMP_Text>().text = "";
+	}
 	private void Update(){
 		CheckPlayed();
 	}
