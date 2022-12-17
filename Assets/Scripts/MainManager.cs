@@ -14,6 +14,8 @@ public class MainManager : MonoBehaviour
 	public bool _passedMedium{get; private set;}
 
 	[SerializeField] private AudioSource _bgMusic;
+	[SerializeField] private AudioSource _selectSound;
+	public AudioSource selectSound{get;set;}
 	
 	private void Awake()
 	{
@@ -25,17 +27,11 @@ public class MainManager : MonoBehaviour
 		}
 		
 		Instance = this;
+		selectSound = _selectSound;
 		DontDestroyOnLoad(gameObject);
 		LoadAll();
-		// SaveAll();
 	}
 	
-	private void OnApplicationQuit() {
-		// Debug.Log(_bgColor);
-		// SaveAll();
-		// Debug.Log(_bgColor);
-	}
-
 	private void Start()
 	{
 		Debug.Log(Application.persistentDataPath);
@@ -47,6 +43,7 @@ public class MainManager : MonoBehaviour
 			else
 				GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = _bgColor;
 			_bgMusic.mute = _mute;
+			_selectSound.mute = _mute;
 			MenuUIManager.Instance._pEasy = _passedEasy;
 			MenuUIManager.Instance._pMedium = _passedMedium;
 		}
@@ -60,6 +57,7 @@ public class MainManager : MonoBehaviour
 
 	public void MuteUnmuteBGMusic(){
 		_bgMusic.mute = !_bgMusic.mute;
+		_selectSound.mute = !_selectSound.mute;
 	}	
 
 

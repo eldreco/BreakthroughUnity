@@ -7,7 +7,7 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
 	//Setup the gamestates
-	public enum GameState{START, WHITESTURN, BLACKSTURN, PLAYWHITES, PLAYBLACKS, WONWHITE, WONBLACK}
+	public enum GameState{START, WHITESTURN, BLACKSTURN, PLAYWHITES, PLAYBLACKS, WONWHITE, WONBLACK, STOP}
 	[SerializeField] private GameState _activeState;
 
 	[SerializeField] private GameObject _endText;
@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour
 	}
 	
 	private void CheckPlayed(){
-		if(CheckWinState() == "Whites")
+		if(CheckWinState() == "Whites" && _activeState != GameState.STOP)
 			WinWhites();
 		else if(CheckWinState() == "Blacks")
 			WinBlacks();
@@ -126,12 +126,14 @@ public class GameManager : MonoBehaviour
 		SetActiveState(GameState.WONWHITE);
 		if(_gameMode != "TwoPlayers"){
 			_endText.GetComponent<TMP_Text>().text = "YOU WIN!";
+			SetStop();
 			if(_gameMode == "Easy")
 				MainManager.Instance.SetProgress(true, MainManager.Instance._passedMedium);
 			else if(_gameMode == "Medium")
 				MainManager.Instance.SetProgress(true, true);
 		}else
 			_endText.GetComponent<TMP_Text>().text = "WHITES WIN!";
+		SetActiveState(GameState.STOP);
 
 	}
 	
@@ -141,6 +143,10 @@ public class GameManager : MonoBehaviour
 			_endText.GetComponent<TMP_Text>().text = "YOU LOSE!";
 		else
 			_endText.GetComponent<TMP_Text>().text = "BLACKS WIN!";
+	}
+	
+	private void SetStop(){
+		AudioPlayer.Instance.PlayAudioWin();
 	}
 
 	private string CheckWinState(){
@@ -183,10 +189,12 @@ public class GameManager : MonoBehaviour
 	}
 	
 	public void LoadMenu(){
+		MainManager.Instance.selectSound.Play();
 		SceneManager.LoadScene("Menu");
 	}
 	
 	public void Restart(){
+		MainManager.Instance.selectSound.Play();
 		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
 	}
 }

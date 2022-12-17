@@ -12,8 +12,8 @@ public class MenuUIManager : MonoBehaviour
     private GameObject _playButton;
     private GameObject _modesUI;
 
-    [SerializeField] TMPro.TMP_Text _mediumButtonTxt;
-    [SerializeField] TMPro.TMP_Text _hardButtonTxt;
+	[SerializeField] private TMPro.TMP_Text _mediumButtonTxt;
+	[SerializeField] private TMPro.TMP_Text _hardButtonTxt;
 
     private bool _playPressed;
 

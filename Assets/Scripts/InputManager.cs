@@ -70,8 +70,8 @@ public class InputManager : MonoBehaviour
         _previousPiece = _piece;
         _previousPieceSprite = _pieceSprite;
         _boardManager.ChoosePiece(_piece);
-        _playManager.SetPlayPiece(_piece);
-        
+		_playManager.SetPlayPiece(_piece);
+		AudioPlayer.Instance.PlayAudioSelectPiece();
 	}
 
 	private void SelectBlackPiece(RaycastHit hit){
@@ -87,7 +87,8 @@ public class InputManager : MonoBehaviour
         _previousPiece = _piece;
         _previousPieceSprite = _pieceSprite;
         _boardManager.ChoosePiece(_piece);
-        _playManager.SetPlayPiece(_piece);
+		_playManager.SetPlayPiece(_piece);
+		AudioPlayer.Instance.PlayAudioSelectPiece();
         
 	}
 
