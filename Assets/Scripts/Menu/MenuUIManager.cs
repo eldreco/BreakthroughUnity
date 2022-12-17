@@ -9,6 +9,9 @@ public class MenuUIManager : MonoBehaviour
     private GameObject _playButton;
     private GameObject _modesUI;
 
+    [SerializeField] TMPro.TMP_Text _mediumButtonTxt;
+    [SerializeField] TMPro.TMP_Text _hardButtonTxt;
+
     private bool _playPressed;
 
     [SerializeField] private GameObject _muteBtn;
@@ -35,6 +38,17 @@ public class MenuUIManager : MonoBehaviour
             _muteTxt.text = "UNMUTE";
             _muteImage.sprite = _unmuteSprite;
         }
+
+        if(!MainManager.Instance._passedEasy)
+            _mediumButtonTxt.text = "LOCKED";
+        else
+            _mediumButtonTxt.text = "MEDIUM";
+
+        if(!MainManager.Instance._passedMedium)
+            _hardButtonTxt.text = "LOCKED";
+        else
+            _hardButtonTxt.text = "HARD";
+        
     }
 
     public void PressMuteButton(){
@@ -47,6 +61,7 @@ public class MenuUIManager : MonoBehaviour
             _muteImage.sprite = _muteSprite;
             MainManager.Instance.SetMute(false);
         }
+        MainManager.Instance.MuteUnmuteBGMusic();
     }
 
     public void PressPlayButton(){

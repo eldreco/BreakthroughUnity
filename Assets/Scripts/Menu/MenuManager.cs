@@ -22,13 +22,17 @@ public class MenuManager : MonoBehaviour
 	}
 
 	public void LoadMainMedium(){
-		_mainManager.SetMode("Medium");
-		SceneManager.LoadScene("Main");
+		if(MainManager.Instance._passedEasy){
+			_mainManager.SetMode("Medium");
+			SceneManager.LoadScene("Main");
+		}
 	}
 	
 	public void LoadMainHard(){
-		_mainManager.SetMode("Hard");
-		SceneManager.LoadScene("Main");
+		if(MainManager.Instance._passedMedium){
+			_mainManager.SetMode("Hard");
+			SceneManager.LoadScene("Main");
+		}
 	}
 
 	public void LoadMainTwoPlayers(){

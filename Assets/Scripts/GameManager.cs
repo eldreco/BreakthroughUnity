@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
 	private MainManager  _mainManager;
 
 	[SerializeField] private string _gameMode;
+
+	public int _player{get;private set;}
 	
 	private void Awake() {
 		SetupGame();
@@ -48,6 +50,7 @@ public class GameManager : MonoBehaviour
 		_activeState = GameState.START;
 		_uiManager.GoAnim();
 		int player = Random.Range(0,2);
+		_player = player;
 		if (player == 0){
 			StartCoroutine(_uiManager.SetYourGoAnim());
 			StartCoroutine(SetTextGo(player));
@@ -76,6 +79,7 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds(2);
 		_endText.GetComponent<TMP_Text>().text = "";
 	}
+
 	private void Update(){
 		CheckPlayed();
 	}
@@ -120,9 +124,13 @@ public class GameManager : MonoBehaviour
 	
 	private void WinWhites(){
 		SetActiveState(GameState.WONWHITE);
-		if(_gameMode != "TwoPlayers")
+		if(_gameMode != "TwoPlayers"){
 			_endText.GetComponent<TMP_Text>().text = "YOU WIN!";
-		else
+			if(_gameMode == "Easy")
+				MainManager.Instance.SetProgress(true, MainManager.Instance._passedMedium);
+			else if(_gameMode == "Medium")
+				MainManager.Instance.SetProgress(true, true);
+		}else
 			_endText.GetComponent<TMP_Text>().text = "WHITES WIN!";
 
 	}

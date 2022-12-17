@@ -33,7 +33,7 @@ public class AIController : MonoBehaviour
 	public IEnumerator Play(){
 		if(_gameManager.GetActiveState() == GameManager.GameState.PLAYBLACKS){
 			
-			if(_firstPlay){
+			if(_firstPlay && _gameManager._player == 1){
 				yield return new WaitForSeconds(2);
 				_firstPlay = false;
 
@@ -121,9 +121,7 @@ public class AIController : MonoBehaviour
 				chosenState = states.ElementAt(Random.Range(0, states.Count));
 			pieceToMove = chosenState._pieceMoved;
 			tileToMoveFrom = chosenState._tileFrom;
-			tileToMoveTo = chosenState._tileTo;
-			
-			Debug.Log("VALUE: "+chosenState._valueHard);
+			tileToMoveTo = chosenState._tileTo;			
 		}
 		UpdateBlacks(pieceToMove, tileToMoveFrom, tileToMoveTo);
 		_playManager.MoveBlackPiece(pieceToMove, tileToMoveFrom, tileToMoveTo);
@@ -139,11 +137,14 @@ public class AIController : MonoBehaviour
 
 		(GameObject, GameObject) eats = CanEat();
 		(GameObject, GameObject) wins = CanWin();
-		tileToMoveFrom = eats.Item1;
-		tileToMoveTo = eats.Item2;
+
 		tileToMoveFrom = wins.Item1;
 		tileToMoveTo = wins.Item2;
-		
+		if(tileToMoveFrom == null){
+			tileToMoveFrom = eats.Item1;
+			tileToMoveTo = eats.Item2;
+		}
+
 		if(tileToMoveFrom != null){
 			pieceToMove = _blacks[tileToMoveFrom];
 		}else{
@@ -179,7 +180,6 @@ public class AIController : MonoBehaviour
 				}
 			}
 		}
-		
 		return (tileToMoveFrom, tileToMoveTo);
 	}
 	

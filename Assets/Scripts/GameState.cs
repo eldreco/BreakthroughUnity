@@ -22,6 +22,11 @@ public class GameState
     }
 
     private void CalculateValueMediumPlayer(){
+		
+		if(_board[_tileTo] != null){
+			_valueHard += 3000;
+		}
+
         foreach (KeyValuePair<GameObject, GameObject> kvp in _board){
             if (kvp.Value != null){
                 if (kvp.Value.name[0] == 'B')
@@ -43,7 +48,6 @@ public class GameState
 		
 		if(_board[_tileTo] != null){
 			_valueHard += 3000;
-			Debug.Log("HEREEEEE" + _valueHard);
 		}
 		
 		foreach (KeyValuePair<GameObject, GameObject> kvp in _board){
@@ -80,7 +84,5 @@ public class GameState
 			
 		if(couldBeEaten)
 			_valueHard -= 2000;
-		
-		Debug.Log(_valueHard);
     }
 }

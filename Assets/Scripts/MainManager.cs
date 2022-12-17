@@ -10,6 +10,10 @@ public class MainManager : MonoBehaviour
 	private Color _bgColor;
 	public string _mode{get; private set;}
 	public bool _mute{get; private set;}
+	public bool _passedEasy{get; private set;}
+	public bool _passedMedium{get; private set;}
+
+	[SerializeField] private AudioSource _bgMusic;
 	
 	private void Awake()
 	{
@@ -25,6 +29,7 @@ public class MainManager : MonoBehaviour
 		LoadColor();
 		LoadMode();
 		LoadMute();
+		LoadProgress();
 	}
 	
 	private void Start()
@@ -47,7 +52,12 @@ public class MainManager : MonoBehaviour
 	{
 		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = _bgColor;
 	}
-	
+
+	public void MuteUnmuteBGMusic(){
+		_bgMusic.mute = !_bgMusic.mute;
+	}	
+
+
 	public void SetBaseColor()
 	{
 		MainManager.Instance._bgColor = new Color(0.9f, 0.9f, 0.9f);
@@ -74,6 +84,12 @@ public class MainManager : MonoBehaviour
 		_mute = mute;
 		SaveMute();
 	}
+
+	public void SetProgress(bool passedEasy, bool PassedMedium){
+		_passedEasy = passedEasy;
+		_passedMedium = PassedMedium;
+		SaveProgress();
+	}
 	
 	[System.Serializable]
 	public class SaveData
@@ -81,6 +97,32 @@ public class MainManager : MonoBehaviour
 		public Color bgColor;
 		public string mode;
 		public bool mute;
+		public bool passedEasy;
+		public bool passedMedium;
+	}
+
+	public void SaveProgress()
+	{
+		SaveData data = new SaveData();
+		data.passedEasy = _passedEasy;
+		data.passedMedium = _passedMedium;
+
+		string json = JsonUtility.ToJson(data);
+
+		File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+	}
+
+	public void LoadProgress()
+	{
+		string path = Application.persistentDataPath + "/savefile.json";
+		if (File.Exists(path))
+		{
+			string json = File.ReadAllText(path);
+			SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+			_passedEasy = data.passedEasy;
+			_passedMedium = data.passedMedium;
+		}
 	}
 
 	public void SaveColor()
