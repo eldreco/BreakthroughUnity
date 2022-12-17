@@ -11,7 +11,8 @@ public class MainManager : MonoBehaviour
 	public string _mode{get; private set;}
 	public bool _mute{get; private set;}
 	public bool _passedEasy{get; private set;}
-	public bool _passedMedium{get; private set;}
+	public bool _passedMedium{get; private set;}	
+	public int _record{get; private set;}
 
 	[SerializeField] private AudioSource _bgMusic;
 	[SerializeField] private AudioSource _selectSound;
@@ -46,6 +47,7 @@ public class MainManager : MonoBehaviour
 			_selectSound.mute = _mute;
 			MenuUIManager.Instance._pEasy = _passedEasy;
 			MenuUIManager.Instance._pMedium = _passedMedium;
+
 		}
 	}
 	
@@ -60,7 +62,10 @@ public class MainManager : MonoBehaviour
 		_selectSound.mute = !_selectSound.mute;
 	}	
 
-
+	public void SetRecord(int record){
+		_record = record;
+		SaveRecord();
+	}
 	public void SetBaseColor()
 	{
 		_bgColor = new Color(0.9f, 0.9f, 0.9f);
@@ -102,6 +107,7 @@ public class MainManager : MonoBehaviour
 		public bool mute;
 		public bool passedEasy;
 		public bool passedMedium;
+		public int record;
 	}
 
 	public void SaveAll(){
@@ -109,6 +115,7 @@ public class MainManager : MonoBehaviour
 		SaveMode();
 		SaveMute();
 		SaveProgress();
+		SaveRecord();
 	}
 
 	public void LoadAll(){
@@ -116,6 +123,7 @@ public class MainManager : MonoBehaviour
 		LoadMode();
 		LoadMute();
 		LoadProgress();
+		LoadRecord();
 	}
 
 	private SaveData SaveRest(){
@@ -124,9 +132,29 @@ public class MainManager : MonoBehaviour
 		d.passedMedium = _passedMedium;
 		d.bgColor = _bgColor;
 		d.mute = _mute;
+		d.record = _record;
 		return d;
 	}
-	
+
+	public void SaveRecord(){
+		SaveData data = SaveRest();
+		data.record = _record;
+
+		string json = JsonUtility.ToJson(data);
+
+		File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+	}
+
+	public void LoadRecord(){
+		string path = Application.persistentDataPath + "/savefile.json";
+		if (File.Exists(path))
+		{
+			string json = File.ReadAllText(path);
+			SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+			_record = data.record;
+		}
+	}
 	public void SaveProgress(){
 		SaveData data = SaveRest();
 		data.passedEasy = _passedEasy;

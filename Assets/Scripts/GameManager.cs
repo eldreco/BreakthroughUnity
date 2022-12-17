@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour
 
 	[SerializeField] private string _gameMode;
 
+	private int _nMoves;
+
 	public int _player{get;private set;}
 	
 	private void Awake() {
@@ -29,8 +31,8 @@ public class GameManager : MonoBehaviour
 
 	private void SetupGame(){
 
+		_nMoves = 0;
 		_boardManager = GameObject.Find("Board").GetComponent<BoardManager>();
-		// _boardManager.SetupBoard();
 		_aiController = GameObject.Find("AIController").GetComponent<AIController>();
 		_endText.GetComponent<TMP_Text>().text = "";
 		_uiManager = gameObject.GetComponent<UIManager>();
@@ -47,6 +49,7 @@ public class GameManager : MonoBehaviour
 	}
 	
 	private void StartManager(){
+		_endText.GetComponent<TMP_Text>().fontSize = 130f;
 		_activeState = GameState.START;
 		_uiManager.GoAnim();
 		int player = Random.Range(0,2);
@@ -63,6 +66,7 @@ public class GameManager : MonoBehaviour
 
 			
 	}
+
 	private IEnumerator SetTextGo(int player){
 		yield return new WaitForSeconds(1);
 		if (player == 0){
@@ -70,14 +74,21 @@ public class GameManager : MonoBehaviour
 				_endText.GetComponent<TMP_Text>().text = "Whites to move";
 			else
 				_endText.GetComponent<TMP_Text>().text = "Your go";
-		}  else {
+		}else {
 			if(_gameMode == "TwoPlayers")
 				_endText.GetComponent<TMP_Text>().text = "Blacks to move";
 			else
 				_endText.GetComponent<TMP_Text>().text = "Your opponent's go";
 		}
 		yield return new WaitForSeconds(2);
-		_endText.GetComponent<TMP_Text>().text = "";
+		_endText.GetComponent<TMP_Text>().fontSize = 100f;
+		if(MainManager.Instance._record != 0 &&  _gameMode == "Hard")
+			_endText.GetComponent<TMP_Text>().text = "YOUR RECORD: " + MainManager.Instance._record + " moves";
+		else if(_gameMode == "Easy"){
+			_endText.GetComponent<TMP_Text>().fontSize = 80f;
+			_endText.GetComponent<TMP_Text>().text = "Reach the last row! If the opponent reaches the first row you lose.";
+		}else
+			_endText.GetComponent<TMP_Text>().text = "";
 	}
 
 	private void Update(){
@@ -114,6 +125,7 @@ public class GameManager : MonoBehaviour
 	
 	private void PlayWhites(){
 		SetActiveState(GameState.PLAYWHITES);
+		_nMoves++;
 	}
 	
 	private void PlayBlacks(){
@@ -124,19 +136,42 @@ public class GameManager : MonoBehaviour
 	
 	private void WinWhites(){
 		SetActiveState(GameState.WONWHITE);
+		_endText.GetComponent<TMP_Text>().fontSize = 130f;
 		if(_gameMode != "TwoPlayers"){
 			_endText.GetComponent<TMP_Text>().text = "YOU WIN!";
-			SetStop();
 			if(_gameMode == "Easy")
 				MainManager.Instance.SetProgress(true, MainManager.Instance._passedMedium);
 			else if(_gameMode == "Medium")
 				MainManager.Instance.SetProgress(true, true);
+
+			if(_gameMode == "Hard"){
+				if(_nMoves < MainManager.Instance._record || MainManager.Instance._record == 0){
+					MainManager.Instance.SetRecord(_nMoves);
+					StartCoroutine(ShowRecord(_nMoves, true));
+				}else
+					StartCoroutine(ShowRecord(MainManager.Instance._record, false));
+			}
 		}else
 			_endText.GetComponent<TMP_Text>().text = "WHITES WIN!";
 		SetActiveState(GameState.STOP);
+		SetStop();
 
 	}
 	
+	private IEnumerator ShowRecord(int record, bool isNew){	
+		yield return new WaitForSeconds(1f);
+		_endText.GetComponent<TMP_Text>().fontSize = 100f;
+		if(isNew){
+			_endText.GetComponent<TMP_Text>().text = "CONGRATULATIONS!";
+			yield return new WaitForSeconds(1);
+			_endText.GetComponent<TMP_Text>().text = "NEW RECORD!: " + record + " moves";
+		}else{
+			_endText.GetComponent<TMP_Text>().text = "BUT STILL SAME RECORD";
+			yield return new WaitForSeconds(1);
+			_endText.GetComponent<TMP_Text>().text = "YOUR RECORD: " + record + " moves";
+		}
+	}
+
 	private void WinBlacks(){
 		SetActiveState(GameState.WONBLACK);
 		if(_gameMode != "TwoPlayers")
