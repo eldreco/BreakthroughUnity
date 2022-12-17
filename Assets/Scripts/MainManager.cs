@@ -9,6 +9,7 @@ public class MainManager : MonoBehaviour
 	public static MainManager Instance;
 	private Color _bgColor;
 	public string _mode{get; private set;}
+	public bool _mute{get; private set;}
 	
 	private void Awake()
 	{
@@ -23,6 +24,7 @@ public class MainManager : MonoBehaviour
 		DontDestroyOnLoad(gameObject);
 		LoadColor();
 		LoadMode();
+		LoadMute();
 	}
 	
 	private void Start()
@@ -35,8 +37,9 @@ public class MainManager : MonoBehaviour
 				SetBaseColor();
 			else
 				SetColor(_bgColor);
+			
+			SetMute(false);
 		}
-		Debug.Log(_bgColor);
 	}
 	
 	// Update is called every frame, if the MonoBehaviour is enabled.
@@ -66,12 +69,18 @@ public class MainManager : MonoBehaviour
 		_mode = difficulty;
 		SaveMode();
 	}
+
+	public void SetMute(bool mute){
+		_mute = mute;
+		SaveMute();
+	}
 	
 	[System.Serializable]
 	public class SaveData
 	{
 		public Color bgColor;
 		public string mode;
+		public bool mute;
 	}
 
 	public void SaveColor()
@@ -117,7 +126,28 @@ public class MainManager : MonoBehaviour
 			_mode = data.mode;
 		}
 	}
-	
+
+	public void SaveMute()
+	{
+		SaveData data = new SaveData();
+		data.mute = _mute;
+
+		string json = JsonUtility.ToJson(data);
+
+		File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
+	}
+
+	public void LoadMute()
+	{
+		string path = Application.persistentDataPath + "/savefile.json";
+		if (File.Exists(path))
+		{
+			string json = File.ReadAllText(path);
+			SaveData data = JsonUtility.FromJson<SaveData>(json);
+
+			_mute = data.mute;
+		}
+	}
 }
 
 

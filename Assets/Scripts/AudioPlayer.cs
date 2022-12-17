@@ -8,10 +8,12 @@ public class AudioPlayer : MonoBehaviour
     [SerializeField] AudioSource _audioMoveBlack;
 
     public void PlayAudioWhiteMove(){
-        _audioMoveWhite.Play();
+        if(MainManager.Instance._mute == false)
+            _audioMoveWhite.Play();
     }
 
     public void PlayAudioBlackMove(){
-        _audioMoveBlack.Play();
+        if(MainManager.Instance._mute == false)
+            _audioMoveBlack.Play();
     }
 }
