@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class MenuUIManager : MonoBehaviour
 {
+
+    public static MenuUIManager Instance;
+
     private GameObject _backgrounds;
     private GameObject _playButton;
     private GameObject _modesUI;
@@ -20,9 +23,15 @@ public class MenuUIManager : MonoBehaviour
     [SerializeField] private Sprite _unmuteSprite;
     [SerializeField] private TMPro.TMP_Text _muteTxt;
 
-
+    public bool _pEasy{get;set;}
+    public bool _pMedium{get;set;}
 
     private void Awake() {
+        if (Instance != null){
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
         _backgrounds = GameObject.Find("Backgrounds");
         _playButton =  GameObject.Find("PlayButton");
         _modesUI =     GameObject.Find("ModesUI");
@@ -48,7 +57,6 @@ public class MenuUIManager : MonoBehaviour
             _hardButtonTxt.text = "LOCKED";
         else
             _hardButtonTxt.text = "HARD";
-        
     }
 
     public void PressMuteButton(){

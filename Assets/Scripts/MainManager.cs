@@ -26,24 +26,29 @@ public class MainManager : MonoBehaviour
 		
 		Instance = this;
 		DontDestroyOnLoad(gameObject);
-		LoadColor();
-		LoadMode();
-		LoadMute();
-		LoadProgress();
+		LoadAll();
+		// SaveAll();
 	}
 	
+	private void OnApplicationQuit() {
+		// Debug.Log(_bgColor);
+		// SaveAll();
+		// Debug.Log(_bgColor);
+	}
+
 	private void Start()
 	{
-
+		Debug.Log(Application.persistentDataPath);
 		Color black = new Color(0,0,0,0);
 		if (MainManager.Instance != null)
 		{
 			if(_bgColor == black)
 				SetBaseColor();
 			else
-				SetColor(_bgColor);
-			
-			SetMute(false);
+				GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = _bgColor;
+			_bgMusic.mute = _mute;
+			MenuUIManager.Instance._pEasy = _passedEasy;
+			MenuUIManager.Instance._pMedium = _passedMedium;
 		}
 	}
 	
@@ -60,13 +65,13 @@ public class MainManager : MonoBehaviour
 
 	public void SetBaseColor()
 	{
-		MainManager.Instance._bgColor = new Color(0.9f, 0.9f, 0.9f);
+		_bgColor = new Color(0.9f, 0.9f, 0.9f);
 		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = _bgColor;
 	}
 	
 	public void SetColor(Color color)
 	{
-		MainManager.Instance._bgColor = color;
+		_bgColor = color;
 		GameObject.Find("Main Camera").GetComponent<Camera>().backgroundColor = _bgColor;
 		SaveColor();
 	}
@@ -101,9 +106,31 @@ public class MainManager : MonoBehaviour
 		public bool passedMedium;
 	}
 
-	public void SaveProgress()
-	{
-		SaveData data = new SaveData();
+	public void SaveAll(){
+		SaveColor();
+		SaveMode();
+		SaveMute();
+		SaveProgress();
+	}
+
+	public void LoadAll(){
+		LoadColor();
+		LoadMode();
+		LoadMute();
+		LoadProgress();
+	}
+
+	private SaveData SaveRest(){
+		SaveData d = new SaveData();
+		d.passedEasy = _passedEasy;
+		d.passedMedium = _passedMedium;
+		d.bgColor = _bgColor;
+		d.mute = _mute;
+		return d;
+	}
+	
+	public void SaveProgress(){
+		SaveData data = SaveRest();
 		data.passedEasy = _passedEasy;
 		data.passedMedium = _passedMedium;
 
@@ -112,8 +139,7 @@ public class MainManager : MonoBehaviour
 		File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
 	}
 
-	public void LoadProgress()
-	{
+	public void LoadProgress(){
 		string path = Application.persistentDataPath + "/savefile.json";
 		if (File.Exists(path))
 		{
@@ -125,9 +151,8 @@ public class MainManager : MonoBehaviour
 		}
 	}
 
-	public void SaveColor()
-	{
-		SaveData data = new SaveData();
+	public void SaveColor(){
+		SaveData data = SaveRest();
 		data.bgColor = _bgColor;
 
 		string json = JsonUtility.ToJson(data);
@@ -135,8 +160,7 @@ public class MainManager : MonoBehaviour
 		File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
 	}
 
-	public void LoadColor()
-	{
+	public void LoadColor(){
 		string path = Application.persistentDataPath + "/savefile.json";
 		if (File.Exists(path))
 		{
@@ -147,8 +171,7 @@ public class MainManager : MonoBehaviour
 		}
 	}
 
-	public void SaveMode()
-	{
+	public void SaveMode(){
 		SaveData data = new SaveData();
 		data.mode = _mode;
 
@@ -157,8 +180,7 @@ public class MainManager : MonoBehaviour
 		File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
 	}
 
-	public void LoadMode()
-	{
+	public void LoadMode(){
 		string path = Application.persistentDataPath + "/savefile.json";
 		if (File.Exists(path))
 		{
@@ -169,9 +191,8 @@ public class MainManager : MonoBehaviour
 		}
 	}
 
-	public void SaveMute()
-	{
-		SaveData data = new SaveData();
+	public void SaveMute(){
+		SaveData data = SaveRest();
 		data.mute = _mute;
 
 		string json = JsonUtility.ToJson(data);
@@ -179,8 +200,7 @@ public class MainManager : MonoBehaviour
 		File.WriteAllText(Application.persistentDataPath + "/savefile.json", json);
 	}
 
-	public void LoadMute()
-	{
+	public void LoadMute(){
 		string path = Application.persistentDataPath + "/savefile.json";
 		if (File.Exists(path))
 		{
