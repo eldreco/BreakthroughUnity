@@ -57,12 +57,16 @@ public class MenuManager : MonoBehaviour
 		_mainManager.SetMode("TwoPlayers");
 		SceneManager.LoadScene("Main");
 	}
+
+	public void OpenTutorial(){
+		SceneManager.LoadScene("HowToPlay");
+	}
 	
 	protected void Update()
 	{
 		_mainManager = GameObject.Find("MainManager").GetComponent<MainManager>();
 	}
-	
+
 	public void SetRed(){
 		_selectSound.Play();
 		_mainManager.SetColor(new Color(0.9f, 0.5f, 0.5f));
