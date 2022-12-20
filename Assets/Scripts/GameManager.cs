@@ -223,9 +223,10 @@ public class GameManager : MonoBehaviour
 		_lockedPlay = false;
 	}
 	
-	public void LoadMenu(){
+	public void LoadMenu(){//Changed for WebGL
 		MainManager.Instance.selectSound.Play();
-		SceneManager.LoadScene("Menu");
+		//SceneManager.LoadScene("Menu");
+		SceneManager.LoadScene("MenuWebGL");
 	}
 	
 	public void Restart(){

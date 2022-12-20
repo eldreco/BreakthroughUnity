@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 191973970}
   - component: {fileID: 191973969}
   m_Layer: 5
-  m_Name: Change Background
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -290,9 +290,9 @@ RectTransform:
   m_Father: {fileID: 1205949650}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.1807, y: -573.265}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1208.25, y: 1146.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &427686603
@@ -415,7 +415,7 @@ GameObject:
   - component: {fileID: 461150127}
   - component: {fileID: 461150126}
   m_Layer: 5
-  m_Name: Change Background (1)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -726,7 +726,7 @@ GameObject:
   - component: {fileID: 580181542}
   - component: {fileID: 580181541}
   m_Layer: 5
-  m_Name: Cube
+  m_Name: Video
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -760,7 +760,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 580181539}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 71e9e6be77392f943acf6f49735d3c9b, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 3ec9791c584c5a0449ca7e00dcbefa76, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -849,7 +849,7 @@ GameObject:
   - component: {fileID: 590793531}
   - component: {fileID: 590793530}
   m_Layer: 5
-  m_Name: Change Background (1)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1119,7 +1119,7 @@ GameObject:
   - component: {fileID: 667564122}
   - component: {fileID: 667564121}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1199,7 +1199,7 @@ GameObject:
   - component: {fileID: 678435030}
   - component: {fileID: 678435029}
   m_Layer: 5
-  m_Name: Cube
+  m_Name: Video
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1233,7 +1233,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 678435027}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: c5f25092d59e9c842bf3e9a3fc637575, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 19f21dc784940cc47b3c51f097d42533, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -1416,7 +1416,7 @@ GameObject:
   - component: {fileID: 709548408}
   - component: {fileID: 709548407}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1495,7 +1495,7 @@ GameObject:
   - component: {fileID: 752893456}
   - component: {fileID: 752893455}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1650,9 +1650,9 @@ RectTransform:
   m_Father: {fileID: 1205949650}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.1807, y: -5159.3853}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1208.25, y: 1146.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &842029213
@@ -1687,9 +1687,9 @@ RectTransform:
   m_Father: {fileID: 1205949650}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.1807, y: -4012.855}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1208.25, y: 1146.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &844981584
@@ -1802,9 +1802,9 @@ RectTransform:
   m_Father: {fileID: 1205949650}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.1807, y: -1719.795}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1208.25, y: 1146.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &911338814
@@ -1819,7 +1819,7 @@ GameObject:
   - component: {fileID: 911338817}
   - component: {fileID: 911338816}
   m_Layer: 5
-  m_Name: Change Background (1)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2057,7 +2057,7 @@ GameObject:
   - component: {fileID: 1190893243}
   - component: {fileID: 1190893242}
   m_Layer: 5
-  m_Name: Cube
+  m_Name: Video
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2091,7 +2091,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1190893240}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: a625d80974d5a6c4083083a38419e9b3, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 0e284ae677284ce4893bd438b6fd7432, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -2265,7 +2265,7 @@ GameObject:
   - component: {fileID: 1327560762}
   - component: {fileID: 1327560761}
   m_Layer: 5
-  m_Name: Change Background (1)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2400,7 +2400,7 @@ GameObject:
   - component: {fileID: 1344078123}
   - component: {fileID: 1344078122}
   m_Layer: 5
-  m_Name: Change Background
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2536,7 +2536,7 @@ GameObject:
   - component: {fileID: 1431941766}
   - component: {fileID: 1431941765}
   m_Layer: 5
-  m_Name: Cube
+  m_Name: Video
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2570,7 +2570,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1431941763}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: adefc4e3d8f161745b3a575ec9e04e65, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 7e2bc6688a9e7a64189305632255e20e, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -2679,9 +2679,9 @@ RectTransform:
   m_Father: {fileID: 1205949650}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.1807, y: -6305.9155}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1208.25, y: 1146.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1472983580
@@ -2716,9 +2716,9 @@ RectTransform:
   m_Father: {fileID: 1205949650}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.1807, y: -2866.3252}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1208.25, y: 1146.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1578013962
@@ -2733,7 +2733,7 @@ GameObject:
   - component: {fileID: 1578013965}
   - component: {fileID: 1578013964}
   m_Layer: 5
-  m_Name: Change Background
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2868,7 +2868,7 @@ GameObject:
   - component: {fileID: 1697581960}
   - component: {fileID: 1697581959}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3050,7 +3050,7 @@ GameObject:
   - component: {fileID: 1809260206}
   - component: {fileID: 1809260205}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3129,7 +3129,7 @@ GameObject:
   - component: {fileID: 1836867367}
   - component: {fileID: 1836867366}
   m_Layer: 5
-  m_Name: Change Background
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3264,7 +3264,7 @@ GameObject:
   - component: {fileID: 1858788073}
   - component: {fileID: 1858788072}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3344,7 +3344,7 @@ GameObject:
   - component: {fileID: 1948446939}
   - component: {fileID: 1948446941}
   m_Layer: 5
-  m_Name: Cube
+  m_Name: Video
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3428,7 +3428,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1948446935}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: b8604527869a01e429a2e23630c580a9, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: 2270b6dfe533cc54b9ca6a064be5411f, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -3468,7 +3468,7 @@ GameObject:
   - component: {fileID: 2005710013}
   - component: {fileID: 2005710012}
   m_Layer: 5
-  m_Name: Cube
+  m_Name: Video
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3502,7 +3502,7 @@ VideoPlayer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005710010}
   m_Enabled: 1
-  m_VideoClip: {fileID: 32900000, guid: 263b087f74366d849bd4f600950e3584, type: 3}
+  m_VideoClip: {fileID: 32900000, guid: fe2c22d0315cc5e46a16684dce80ca7c, type: 3}
   m_TargetCameraAlpha: 1
   m_TargetCamera3DLayout: 0
   m_TargetCamera: {fileID: 0}
@@ -3591,7 +3591,7 @@ GameObject:
   - component: {fileID: 2032418455}
   - component: {fileID: 2032418454}
   m_Layer: 5
-  m_Name: Image
+  m_Name: Content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3670,7 +3670,7 @@ GameObject:
   - component: {fileID: 2057077886}
   - component: {fileID: 2057077885}
   m_Layer: 5
-  m_Name: Change Background
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3805,7 +3805,7 @@ GameObject:
   - component: {fileID: 2059321301}
   - component: {fileID: 2059321300}
   m_Layer: 5
-  m_Name: Change Background (1)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3964,9 +3964,9 @@ RectTransform:
   m_Father: {fileID: 1205949650}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 597.1807, y: -6942.2705}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 569.4, y: 126.18}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2092957570
@@ -4075,7 +4075,7 @@ GameObject:
   - component: {fileID: 2115336562}
   - component: {fileID: 2115336561}
   m_Layer: 5
-  m_Name: Change Background
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4210,7 +4210,7 @@ GameObject:
   - component: {fileID: 2144718521}
   - component: {fileID: 2144718520}
   m_Layer: 5
-  m_Name: Change Background (1)
+  m_Name: Description
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

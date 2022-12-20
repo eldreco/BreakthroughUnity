@@ -40,7 +40,7 @@ public class InputManager : MonoBehaviour
 	}
 
 	public void SelectPiece(){
-        Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
+		Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position); //Input.touches[0].position for mobile and Input.mousePosition for PC
         RaycastHit hit;
 
 		if (Physics.Raycast(ray, out hit)){
@@ -95,7 +95,7 @@ public class InputManager : MonoBehaviour
     public void SelectTile(){
         GameObject tile = null;
         //Get object clicked
-        Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position);
+	    Ray ray = Camera.main.ScreenPointToRay(Input.touches[0].position); //Input.touches[0].position for mobile and Input.mousePosition for PC
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit)){
             if (hit.transform.gameObject.tag == "Tile"){//Check if it's a tile		

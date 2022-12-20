@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Menu.unity
     guid: 3fc8acdd13e6c734bafef6554d6fdbcd
+  - enabled: 0
+    path: Assets/Scenes/MenuWebGL.unity
+    guid: e79862b7e55403647acb5ae5ab1ca178
   - enabled: 1
     path: Assets/Scenes/Main.unity
     guid: ebc43aff7a084454b9d6d81531f37832
